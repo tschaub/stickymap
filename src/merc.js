@@ -3,9 +3,22 @@ var edge = radius * Math.PI;
 
 exports.forward = function(input, output) {
   output = output || [];
+  var lat, y;
   for (var i = 0, ii = input.length; i < ii; i += 2) {
     output[i] = edge * input[i] / 180;
-    output[i + 1] = radius * Math.log(Math.tan(Math.PI * (input[i + 1] + 90) / 360));
+    lat = input[i + 1];
+    if (lat > 90) {
+      lat = 90;
+    } else if (lat < -90) {
+      lat = -90;
+    }
+    y = radius * Math.log(Math.tan(Math.PI * (lat + 90) / 360));
+    if (y > edge) {
+      y = edge;
+    } else if (y < -edge) {
+      y = -edge;
+    }
+    output[i + 1] = y;
   }
   return output;
 };

@@ -27,6 +27,10 @@ describe('forward', function() {
     expectCoord(merc.forward([0, 0]), [0, 0]);
     expectCoord(merc.forward([-180, 0]), [-merc.edge, 0]);
     expectCoord(merc.forward([180, 0]), [merc.edge, 0]);
+    expectCoord(merc.forward([0, 90]), [0, merc.edge]);
+    expectCoord(merc.forward([0, -90]), [0, -merc.edge]);
+    expectCoord(merc.forward([0, 10000]), [0, merc.edge]);
+    expectCoord(merc.forward([0, -10000]), [0, -merc.edge]);
     expectCoord(merc.forward(ALT_GEO), ALT_MERC);
   });
 
