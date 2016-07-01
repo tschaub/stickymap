@@ -15,6 +15,13 @@ describe('height', function() {
   });
 });
 
+describe('center', function() {
+  it('returns the center of a bbox', function() {
+    expect(bbox.center([0, 0, 10, 15])).to.eql([5, 7.5]);
+    expect(bbox.center([-10, -10, 10, 15])).to.eql([0, 2.5]);
+  });
+});
+
 describe('resize', function() {
   it('returns a new bbox centered on the old one', function() {
     expect(bbox.resize([-10, -20, 10, 20], 30, 10)).to.eql([-15, -5, 15, 5]);
