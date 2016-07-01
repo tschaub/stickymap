@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "main": "src/index.js",
   "scripts": {
-    "start": "karma start test/config.js",
-    "test": "karma start test/config.js --single-run"
+    "pretest": "eslint src test",
+    "test": "karma start test/config.js --single-run",
+    "start": "karma start test/config.js"
   },
   "devDependencies": {
     "chai": "^3.5.0",
@@ -17,5 +18,8 @@
     "karma-mocha": "^1.1.1",
     "mocha": "^2.5.3",
     "watchify": "^3.7.0"
+  },
+  "eslintConfig": {
+    "extends": "tschaub"
   }
 }
