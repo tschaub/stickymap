@@ -21,7 +21,7 @@ exports.resolveDimensions = function(config) {
     resolution = minMapHeight / height;
     width = minMapWidth / resolution;
   } else {
-    throw new Error('Map must be given at least a width or height');
+    throw new Error('Map must be given a width or height');
   }
   return {
     bbox: bbox.resize(minMapBbox, width * resolution, height * resolution),

@@ -54,7 +54,7 @@ describe('resolveDimensions', function() {
       });
     };
 
-    expect(call).to.throw(Error, /must be given at least a width or height/);
+    expect(call).to.throw(Error, /must be given a width or height/);
   });
 
   it('extends bbox width if image aspect ratio is higher', function() {
