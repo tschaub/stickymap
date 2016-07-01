@@ -25,11 +25,14 @@ function StickyMap(config) {
 StickyMap.prototype.load = function() {
   var bbox = this._bbox;
   var resolution = this._resolution;
+  var width = this.width;
+  var height = this.height;
 
   return Promise.all(this.layers.map(function(layer) {
     return load(layer, bbox, resolution);
   })).then(function(tileSets) {
-    return render(tileSets);
+    var canvas = render(tileSets, bbox, resolution, width, height);
+    return canvas.toDataURL();
   });
 };
 
