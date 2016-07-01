@@ -1,7 +1,14 @@
+var browsers;
+if (process.env.TRAVIS) {
+  browsers = ['Firefox'];
+} else {
+  browsers = ['Chrome'];
+}
+
 module.exports = function(config) {
   config.set({
     frameworks: ['browserify', 'mocha'],
-    browsers: ['Chrome'],
+    browsers: browsers,
     files: [
       '**/*.spec.js'
     ],

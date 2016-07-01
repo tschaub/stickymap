@@ -7,12 +7,13 @@
     "test": "karma start test/config.js --single-run"
   },
   "devDependencies": {
-    "code": "^3.0.1",
+    "chai": "^3.5.0",
     "eslint": "^2.13.1",
     "eslint-config-tschaub": "^5.0.0",
     "karma": "^1.1.0",
     "karma-browserify": "^5.0.5",
     "karma-chrome-launcher": "^1.0.1",
+    "karma-firefox-launcher": "^1.0.0",
     "karma-mocha": "^1.1.1",
     "mocha": "^2.5.3",
     "watchify": "^3.7.0"

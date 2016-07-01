@@ -1,25 +1,25 @@
 var merc = require('../src/merc');
-var expect = require('code').expect;
+var expect = require('chai').expect;
 
-var DELTA = 1e-9;
+var DELTA = 1e-8;
 
 var ALT_GEO = [-5.625, 52.4827802220782];
 var ALT_MERC = [-626172.13571216376, 6887893.4928337997];
 
 function expectCoord(actual, expected) {
-  expect(actual).to.be.an.array();
-  expect(actual).to.have.length(2);
-  expect(actual[0]).to.be.about(expected[0], DELTA);
-  expect(actual[1]).to.be.about(expected[1], DELTA);
+  expect(actual).to.be.an('array');
+  expect(actual).to.have.lengthOf(2);
+  expect(actual[0]).to.be.closeTo(expected[0], DELTA);
+  expect(actual[1]).to.be.closeTo(expected[1], DELTA);
 }
 
 function expectBbox(actual, expected) {
-  expect(actual).to.be.an.array();
-  expect(actual).to.have.length(4);
-  expect(actual[0]).to.be.about(expected[0], DELTA);
-  expect(actual[1]).to.be.about(expected[1], DELTA);
-  expect(actual[2]).to.be.about(expected[2], DELTA);
-  expect(actual[3]).to.be.about(expected[3], DELTA);
+  expect(actual).to.be.an('array');
+  expect(actual).to.have.lengthOf(4);
+  expect(actual[0]).to.be.closeTo(expected[0], DELTA);
+  expect(actual[1]).to.be.closeTo(expected[1], DELTA);
+  expect(actual[2]).to.be.closeTo(expected[2], DELTA);
+  expect(actual[3]).to.be.closeTo(expected[3], DELTA);
 }
 
 describe('forward', function() {
@@ -39,7 +39,7 @@ describe('forward', function() {
   it('does not modify the original', function() {
     var original = [1, 2];
     merc.forward(original);
-    expect(original).to.equal([1, 2]);
+    expect(original).to.eql([1, 2]);
   });
 
   it('accepts an optional output array', function() {
@@ -66,7 +66,7 @@ describe('inverse', function() {
   it('does not modify the original', function() {
     var original = [1, 2];
     merc.inverse(original);
-    expect(original).to.equal([1, 2]);
+    expect(original).to.eql([1, 2]);
   });
 
   it('accepts an optional output array', function() {
