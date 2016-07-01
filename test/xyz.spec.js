@@ -18,3 +18,12 @@ describe('getZ()', function() {
     expect(xyz.getZ(10 * xyz.R0)).to.equal(0);
   });
 });
+
+describe('getResolution()', function() {
+  it('returns a resolution given a zoom level', function() {
+    expect(xyz.getResolution(0)).to.equal(xyz.R0);
+    expect(xyz.getResolution(1)).to.equal(xyz.R0 / 2);
+    expect(xyz.getResolution(2)).to.equal(xyz.R0 / 4);
+    expect(xyz.getResolution(3)).to.equal(xyz.R0 / 8);
+  });
+});
