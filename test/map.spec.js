@@ -38,7 +38,7 @@ describe('constructor', function() {
 
 describe('#width', function() {
 
-  it('is pixel width of the map', function() {
+  it('is the pixel width of the map', function() {
     var map = new StickyMap({
       bbox: [-180, -90, 180, 90],
       width: 150,
@@ -46,6 +46,58 @@ describe('#width', function() {
     });
 
     expect(map.width).to.eql(150);
+  });
+
+  it('is calculated if not provided explicitly', function() {
+    var map = new StickyMap({
+      bbox: [-180, -90, 180, 90],
+      height: 100
+    });
+
+    expect(map.width).to.eql(100);
+  });
+
+});
+
+describe('#height', function() {
+
+  it('is the pixel height of the map', function() {
+    var map = new StickyMap({
+      bbox: [-180, -90, 180, 90],
+      width: 150,
+      height: 100
+    });
+
+    expect(map.height).to.eql(100);
+  });
+
+  it('is calculated if not provided explicitly', function() {
+    var map = new StickyMap({
+      bbox: [-180, 0, 0, 90],
+      width: 200
+    });
+
+    expect(map.width).to.eql(200);
+  });
+
+});
+
+describe('#load()', function() {
+
+  it('returns a promise', function() {
+
+    var map = new StickyMap({
+      bbox: [-120, 40, -100, 60],
+      layers: [
+        {url: 'http://example.com/{z}/{x}/{y}.png'}
+      ],
+      width: 200,
+      height: 150
+    });
+
+    var promise = map.load();
+    expect(promise).to.be.an.instanceOf(Promise);
+
   });
 
 });

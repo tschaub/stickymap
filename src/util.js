@@ -25,6 +25,7 @@ exports.resolveDimensions = function(config) {
   }
   return {
     bbox: bbox.resize(minMapBbox, width * resolution, height * resolution),
+    resolution: resolution,
     width: width,
     height: height
   };
