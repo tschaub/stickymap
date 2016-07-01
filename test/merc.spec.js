@@ -25,18 +25,18 @@ function expectBbox(actual, expected) {
 describe('forward', function() {
   it('transforms geographic to web mercator', function() {
     expectCoord(merc.forward([0, 0]), [0, 0]);
-    expectCoord(merc.forward([-180, 0]), [-merc.edge, 0]);
-    expectCoord(merc.forward([180, 0]), [merc.edge, 0]);
-    expectCoord(merc.forward([0, 90]), [0, merc.edge]);
-    expectCoord(merc.forward([0, -90]), [0, -merc.edge]);
-    expectCoord(merc.forward([0, 10000]), [0, merc.edge]);
-    expectCoord(merc.forward([0, -10000]), [0, -merc.edge]);
+    expectCoord(merc.forward([-180, 0]), [-merc.EDGE, 0]);
+    expectCoord(merc.forward([180, 0]), [merc.EDGE, 0]);
+    expectCoord(merc.forward([0, 90]), [0, merc.EDGE]);
+    expectCoord(merc.forward([0, -90]), [0, -merc.EDGE]);
+    expectCoord(merc.forward([0, 10000]), [0, merc.EDGE]);
+    expectCoord(merc.forward([0, -10000]), [0, -merc.EDGE]);
     expectCoord(merc.forward(ALT_GEO), ALT_MERC);
   });
 
   it('works for bboxes', function() {
     expectBbox(merc.forward([0, 0, 0, 0]), [0, 0, 0, 0]);
-    expectBbox(merc.forward([-180, 0, 180, 0]), [-merc.edge, 0, merc.edge, 0]);
+    expectBbox(merc.forward([-180, 0, 180, 0]), [-merc.EDGE, 0, merc.EDGE, 0]);
     expectBbox(merc.forward(ALT_GEO.concat(ALT_GEO)), ALT_MERC.concat(ALT_MERC));
   });
 
@@ -49,21 +49,21 @@ describe('forward', function() {
   it('accepts an optional output array', function() {
     var output = [];
     merc.forward([-180, 0], output);
-    expectCoord(output, [-merc.edge, 0]);
+    expectCoord(output, [-merc.EDGE, 0]);
   });
 });
 
 describe('inverse', function() {
   it('transforms web mercator to geographic', function() {
     expectCoord(merc.inverse([0, 0]), [0, 0]);
-    expectCoord(merc.inverse([-merc.edge, 0]), [-180, 0]);
-    expectCoord(merc.inverse([merc.edge, 0]), [180, 0]);
+    expectCoord(merc.inverse([-merc.EDGE, 0]), [-180, 0]);
+    expectCoord(merc.inverse([merc.EDGE, 0]), [180, 0]);
     expectCoord(merc.inverse(ALT_MERC), ALT_GEO);
   });
 
   it('works for bboxes', function() {
     expectBbox(merc.inverse([0, 0, 0, 0]), [0, 0, 0, 0]);
-    expectBbox(merc.inverse([-merc.edge, 0, merc.edge, 0]), [-180, 0, 180, 0]);
+    expectBbox(merc.inverse([-merc.EDGE, 0, merc.EDGE, 0]), [-180, 0, 180, 0]);
     expectBbox(merc.inverse(ALT_MERC.concat(ALT_MERC)), ALT_GEO.concat(ALT_GEO));
   });
 
@@ -75,7 +75,7 @@ describe('inverse', function() {
 
   it('accepts an optional output array', function() {
     var output = [];
-    merc.inverse([-merc.edge, 0], output);
+    merc.inverse([-merc.EDGE, 0], output);
     expectCoord(output, [-180, 0]);
   });
 });
