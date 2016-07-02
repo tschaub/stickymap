@@ -5,9 +5,13 @@
   "scripts": {
     "pretest": "eslint src test",
     "test": "karma start test/config.js --single-run",
-    "start": "karma start test/config.js"
+    "test-forever": "karma start test/config.js",
+    "serve": "browser-sync start --server build --files build --reload-debounce 1000 --no-open",
+    "rebuild": "nodemon --ext js,html --watch src --watch doc --exec make build",
+    "start": "npm run rebuild & npm run serve"
   },
   "devDependencies": {
+    "browser-sync": "^2.13.0",
     "chai": "^3.5.0",
     "eslint": "^2.13.1",
     "eslint-config-tschaub": "^5.0.0",
@@ -17,6 +21,7 @@
     "karma-firefox-launcher": "^1.0.0",
     "karma-mocha": "^1.1.1",
     "mocha": "^2.5.3",
+    "nodemon": "^1.9.2",
     "watchify": "^3.7.0"
   },
   "eslintConfig": {

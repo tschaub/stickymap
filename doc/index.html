@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>stickymap</title>
+    <script src="./stickymap.js"></script>
+  </head>
+  <body>
+    <script>
+      var image = stickymap.img({
+        bbox: [-122.45, 47.5, -122.2, 47.7],
+        width: 300,
+        layers: [{
+          url: 'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png'
+        }]
+      });
+
+      document.body.appendChild(image);
+    </script>
+  </body>
+</html>

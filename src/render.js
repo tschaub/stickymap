@@ -10,7 +10,8 @@ module.exports = function(tileSets, bbox, resolution, width, height) {
 
   var z = xyz.getZ(resolution);
   var tileResolution = xyz.getResolution(z);
-  context.scale(tileResolution / resolution);
+  var scale = tileResolution / resolution;
+  context.scale(scale, scale);
 
   var offsetX = (bbox[0] + merc.EDGE) / tileResolution;
   var offsetY = (merc.EDGE - bbox[3]) / tileResolution;

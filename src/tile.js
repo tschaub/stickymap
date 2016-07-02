@@ -1,14 +1,16 @@
 var xyz = require('./xyz');
 
-function Tile(url, x, y, z) {
+function Tile(url, x, y, z, options) {
   this.url = url;
   this.x = x;
   this.y = y;
   this.z = z;
+  this.options = options || {};
 }
 
 Tile.prototype.load = function() {
   var image = new Image();
+  image.crossOrigin = this.options.crossOrigin || 'anonymous';
   image.width = xyz.SIZE;
   image.height = xyz.SIZE;
   this.image = image;
