@@ -7,10 +7,10 @@ exports.img = function(config) {
   image.width = map.width;
   image.height = map.height;
 
-  map.load().then(function(dataUrl) {
-    image.src = dataUrl;
+  map.load().then(function(canvas) {
+    image.src = canvas.toDataURL();
   }).catch(function(err) {
-    console.error(err);
+    image.src = err;
   });
 
   return image;

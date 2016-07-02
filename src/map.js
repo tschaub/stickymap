@@ -1,14 +1,27 @@
+var geo = require('./geo');
 var load = require('./load');
 var merc = require('./merc');
 var render = require('./render');
 var util = require('./util');
 
 function StickyMap(config) {
-  if (!config.bbox) {
-    throw new Error('Map must have a bbox');
+  var bbox;
+  if (config.fit) {
+    if (Array.isArray(config.fit)) {
+      bbox = config.fit;
+    } else {
+      bbox = geo.getBbox(config.fit);
+    }
+  } else {
+    if (config.clip) {
+      bbox = geo.getBbox(config.clip);
+    } else {
+      throw new Error('Map must have fit or clip');
+    }
   }
+
   var dimensions = util.resolveDimensions({
-    bbox: merc.forward(config.bbox),
+    bbox: merc.forward(bbox),
     width: config.width,
     height: config.height
   });
@@ -18,6 +31,9 @@ function StickyMap(config) {
 
   this._resolution = dimensions.resolution;
   this._bbox = dimensions.bbox;
+  if (config.clip) {
+    this._clip = geo.transform(config.clip);
+  }
 
   this.layers = config.layers;
 }
@@ -28,11 +44,19 @@ StickyMap.prototype.load = function() {
   var width = this.width;
   var height = this.height;
 
+  var renderConfig = {
+    bbox: bbox,
+    resolution: resolution,
+    width: width,
+    height: height,
+    clip: this._clip
+  };
+
   return Promise.all(this.layers.map(function(layer) {
     return load(layer, bbox, resolution);
   })).then(function(tileSets) {
-    var canvas = render(tileSets, bbox, resolution, width, height);
-    return canvas.toDataURL();
+    var canvas = render(tileSets, renderConfig);
+    return canvas;
   });
 };
 
