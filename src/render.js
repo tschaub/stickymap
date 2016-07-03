@@ -46,38 +46,45 @@ module.exports = function(tileSets, config) {
 };
 
 function setClipPath(context, obj, transform) {
-  context.setTransform.apply(context, transform);
   context.beginPath();
   switch (obj.type) {
     case 'Polygon':
-      setPolygonPath(context, obj.coordinates);
+      setPolygonPath(context, obj.coordinates, transform);
       break;
     case 'MultiPolygon':
-      setMultiPolygonPath(context, obj.coordinates);
+      setMultiPolygonPath(context, obj.coordinates, transform);
       break;
     default:
       throw new Error('Unsupported type for clip path: ' + obj.type);
   }
   context.clip();
-  context.setTransform(1, 0, 0, 1, 0, 0);
 }
 
-function setPolygonPath(context, coordinates) {
+function setPolygonPath(context, coordinates, transform) {
   for (var i = 0, ii = coordinates.length; i < ii; ++i) {
     var ring = coordinates[i];
     for (var j = 0, jj = ring.length; j < jj; ++j) {
       var coord = ring[j];
       if (j === 0) {
-        context.moveTo(coord[0], coord[1]);
+        context.moveTo.apply(context, applyTransform(transform, coord));
       } else {
-        context.lineTo(coord[0], coord[0]);
+        context.lineTo.apply(context, applyTransform(transform, coord));
       }
     }
   }
 }
 
-function setMultiPolygonPath(context, coordinates) {
+function setMultiPolygonPath(context, coordinates, transform) {
   for (var i = 0, ii = coordinates.length; i < ii; ++i) {
-    setPolygonPath(coordinates[i]);
+    setPolygonPath(context, coordinates[i], transform);
   }
+}
+
+function applyTransform(transform, coordinate) {
+  var x = coordinate[0];
+  var y = coordinate[1];
+  return [
+    transform[0] * x + transform[2] * y + transform[4],
+    transform[1] * x + transform[3] * y + transform[5]
+  ];
 }

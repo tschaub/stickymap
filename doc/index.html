@@ -7,8 +7,17 @@
   </head>
   <body>
     <script>
+
+      var clip = {
+        type: 'Polygon',
+        coordinates: [
+          [[-122.4, 47.55], [-122.3, 47.55], [-122.3, 47.65], [-122.4, 47.65], [-122.4, 47.55]]
+        ]
+      }
+
       var image = stickymap.img({
-        bbox: [-122.45, 47.5, -122.2, 47.7],
+        fit: [-122.45, 47.5, -122.2, 47.7],
+        clip: clip,
         width: 300,
         layers: [{
           url: 'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png'
