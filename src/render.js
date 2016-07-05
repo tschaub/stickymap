@@ -4,12 +4,7 @@ var xyz = require('./xyz');
 module.exports = function(tileSets, config) {
   var bbox = config.bbox;
   var resolution = config.resolution;
-
-  var canvas = document.createElement('canvas');
-  canvas.width = config.width;
-  canvas.height = config.height;
-
-  var context = canvas.getContext('2d');
+  var context = config.canvas.getContext('2d');
 
   if (config.clip) {
     var transform = [
@@ -42,7 +37,6 @@ module.exports = function(tileSets, config) {
     }
   }
 
-  return canvas;
 };
 
 function setClipPath(context, obj, transform) {

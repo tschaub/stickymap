@@ -8,23 +8,18 @@
   <body>
     <script>
 
-      var clip = {
-        type: 'Polygon',
-        coordinates: [
-          [[-122.4, 47.55], [-122.3, 47.55], [-122.3, 47.65], [-122.4, 47.65], [-122.4, 47.55]]
-        ]
-      }
-
-      var image = stickymap.img({
-        fit: [-122.45, 47.5, -122.2, 47.7],
-        clip: clip,
-        width: 300,
-        layers: [{
-          url: 'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png'
-        }]
+      fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries/USA/MT.geo.json').then(function(response) {
+        return response.json();
+      }).then(function(collection) {
+        document.body.appendChild(stickymap({
+          clip: collection.features[0].geometry,
+          width: 500,
+          layers: [{
+            url: 'https://a.tiles.mapbox.com/v3/mapbox.blue-marble-topo-jul/{z}/{x}/{y}.png'
+          }]
+        }));
       });
 
-      document.body.appendChild(image);
     </script>
   </body>
 </html>

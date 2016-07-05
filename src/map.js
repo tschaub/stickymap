@@ -26,33 +26,32 @@ function StickyMap(config) {
     height: config.height
   });
 
-  this.width = dimensions.width;
-  this.height = dimensions.height;
+  var canvas = document.createElement('canvas');
+  canvas.width = dimensions.width;
+  canvas.height = dimensions.height;
 
   this._resolution = dimensions.resolution;
   this._bbox = dimensions.bbox;
   if (config.clip) {
     this._clip = geo.transform(config.clip);
   }
+  this._layers = config.layers;
 
-  this.layers = config.layers;
+  this.canvas = canvas;
 }
 
 StickyMap.prototype.load = function() {
   var bbox = this._bbox;
   var resolution = this._resolution;
-  var width = this.width;
-  var height = this.height;
 
   var renderConfig = {
     bbox: bbox,
     resolution: resolution,
-    width: width,
-    height: height,
+    canvas: this.canvas,
     clip: this._clip
   };
 
-  return Promise.all(this.layers.map(function(layer) {
+  return Promise.all(this._layers.map(function(layer) {
     return load(layer, bbox, resolution);
   })).then(function(tileSets) {
     var canvas = render(tileSets, renderConfig);
