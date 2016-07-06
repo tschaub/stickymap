@@ -1,7 +1,7 @@
 var merc = require('./merc');
 
-exports.transform = function(obj) {
-  var coordinates;
+var transform = exports.transform = function(obj) {
+  var transformed;
   switch (obj.type) {
     case 'Point':
     case 'LineString':
@@ -9,15 +9,21 @@ exports.transform = function(obj) {
     case 'MultiPoint':
     case 'MultiLineString':
     case 'MultiPolygon':
-      coordinates = transformCoordinates(obj.coordinates);
+      transformed = {
+        type: obj.type,
+        coordinates: transformCoordinates(obj.coordinates)
+      };
+      break;
+    case 'GeometryCollection':
+      transformed = {
+        type: obj.type,
+        geometries: obj.geometries.map(geometry => transform(geometry))
+      };
       break;
     default:
       throw new Error('GeoJSON type ' + obj.type + ' not supported');
   }
-  return {
-    type: obj.type,
-    coordinates: coordinates
-  };
+  return transformed;
 };
 
 function transformCoordinates(input) {

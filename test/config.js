@@ -7,7 +7,7 @@ if (process.env.TRAVIS) {
 
 module.exports = function(config) {
   config.set({
-    frameworks: ['browserify', 'mocha'],
+    frameworks: ['source-map-support', 'browserify', 'mocha'],
     browsers: browsers,
     files: [
       '**/*.spec.js'

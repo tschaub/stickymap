@@ -7,7 +7,15 @@ var DELTA = 1e-8;
 function expectGeom(actual, expected) {
   expect(actual).to.be.an('object');
   expect(actual.type).to.equal(expected.type);
-  expectCoordinates(actual.coordinates, expected.coordinates);
+  if (expected.type === 'GeometryCollection') {
+    expect(actual.geometries).to.be.an('array');
+    expect(actual.geometries.length).to.equal(expected.geometries.length);
+    for (var i = 0, ii = actual.geometries.length; i < ii; ++i) {
+      expectGeom(actual.geometries[i], expected.geometries[i]);
+    }
+  } else {
+    expectCoordinates(actual.coordinates, expected.coordinates);
+  }
 }
 
 function expectCoordinates(actual, expected) {
@@ -111,6 +119,35 @@ describe('transform', function() {
         ], [
           [[-12245143.987260092, -5621521.486192067], [12245143.987260092, -5621521.486192066], [12245143.987260092, 5621521.486192066], [-12245143.987260092, 5621521.486192067], [-12245143.987260092, -5621521.486192067]]
         ]
+      ]
+    });
+  });
+
+  it('works for GeometryCollection', function() {
+
+    var gg = {
+      type: 'GeometryCollection',
+      geometries: [
+        {
+          type: 'Point',
+          coordinates: [-180, 90]
+        }, {
+          type: 'LineString',
+          coordinates: [[-180, 90], [180, -90]]
+        }
+      ]
+    };
+
+    expectGeom(geo.transform(gg), {
+      type: 'GeometryCollection',
+      geometries: [
+        {
+          type: 'Point',
+          coordinates: [-merc.EDGE, merc.EDGE]
+        }, {
+          type: 'LineString',
+          coordinates: [[-merc.EDGE, merc.EDGE], [merc.EDGE, -merc.EDGE]]
+        }
       ]
     });
   });
