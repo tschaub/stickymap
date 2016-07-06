@@ -59,13 +59,15 @@ function transformCoordinates(input) {
 }
 
 exports.getBbox = function(obj) {
-  var bbox;
+  var bbox = [Infinity, Infinity, -Infinity, -Infinity];
   switch (obj.type) {
+    case 'Point':
+    case 'LineString':
     case 'Polygon':
-      bbox = getPolygonBbox(obj);
-      break;
+    case 'MultiPoint':
+    case 'MultiLineString':
     case 'MultiPolygon':
-      bbox = getMultiPolygonBbox(obj);
+      getCoordinatesBbox(obj.coordinates, bbox);
       break;
     default:
       throw new Error('GeoJSON type ' + obj.type + ' not supported');
@@ -73,43 +75,21 @@ exports.getBbox = function(obj) {
   return bbox;
 };
 
-function getPolygonBbox(poly, bbox) {
-  bbox = bbox || [Infinity, Infinity, -Infinity, -Infinity];
-  var minX = bbox[0];
-  var minY = bbox[1];
-  var maxX = bbox[2];
-  var maxY = bbox[3];
-  for (var i = 0, ii = poly.coordinates.length; i < ii; ++i) {
-    var ring = poly.coordinates[i];
-    for (var j = 0, jj = ring.length; j < jj; ++j) {
-      var coord = ring[j];
-      var x = coord[0];
-      var y = coord[1];
-      if (x < minX) {
-        minX = x;
-      }
-      if (x > maxX) {
-        maxX = x;
-      }
-      if (y < minY) {
-        minY = y;
-      }
-      if (y > maxY) {
-        maxY = y;
-      }
+function getCoordinatesBbox(input, bbox) {
+  if (!Array.isArray(input)) {
+    throw new Error('Invalid coordinates');
+  }
+  if (!Array.isArray(input[0])) {
+    if (input.length < 2) {
+      throw new Error('Invalid coordinates');
+    }
+    bbox[0] = Math.min(bbox[0], input[0]);
+    bbox[1] = Math.min(bbox[1], input[1]);
+    bbox[2] = Math.max(bbox[2], input[0]);
+    bbox[3] = Math.max(bbox[3], input[1]);
+  } else {
+    for (var i = 0, ii = input.length; i < ii; ++i) {
+      getCoordinatesBbox(input[i], bbox);
     }
   }
-  bbox[0] = minX;
-  bbox[1] = minY;
-  bbox[2] = maxX;
-  bbox[3] = maxY;
-  return bbox;
-}
-
-function getMultiPolygonBbox(multi) {
-  var bbox = [Infinity, Infinity, -Infinity, -Infinity];
-  for (var i = 0, ii = multi.coordinates.length; i < ii; ++i) {
-    getPolygonBbox(multi.coordinates[i], bbox);
-  }
-  return bbox;
 }

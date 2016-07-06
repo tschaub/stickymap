@@ -206,3 +206,67 @@ describe('transform', function() {
   });
 
 });
+
+describe('getBbox()', function() {
+
+  it('works for Point', function() {
+    var bbox = geo.getBbox({
+      type: 'Point',
+      coordinates: [-110, 45]
+    });
+    expect(bbox).to.eql([-110, 45, -110, 45]);
+  });
+
+  it('works for LineString', function() {
+    var bbox = geo.getBbox({
+      type: 'LineString',
+      coordinates: [[-110, 45], [110, -45]]
+    });
+    expect(bbox).to.eql([-110, -45, 110, 45]);
+  });
+
+  it('works for Polygon', function() {
+    var bbox = geo.getBbox({
+      type: 'Polygon',
+      coordinates: [
+        [[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]],
+        [[-110, -45], [-110, 45], [110, 45], [110, -45], [-110, -45]]
+      ]
+    });
+    expect(bbox).to.eql([-180, -90, 180, 90]);
+  });
+
+  it('works for MultiPoint', function() {
+    var bbox = geo.getBbox({
+      type: 'MultiPoint',
+      coordinates: [[-110, 45], [0, 0]]
+    });
+    expect(bbox).to.eql([-110, 0, 0, 45]);
+  });
+
+  it('works for MultiLineString', function() {
+    var bbox = geo.getBbox({
+      type: 'MultiLineString',
+      coordinates: [
+        [[-110, 45], [110, -45]],
+        [[-180, 45], [110, -55]]
+      ]
+    });
+    expect(bbox).to.eql([-180, -55, 110, 45]);
+  });
+
+  it('works for MultiPolygon', function() {
+    var bbox = geo.getBbox({
+      type: 'MultiPolygon',
+      coordinates: [
+        [
+          [[-180, -90], [0, -90], [0, 10], [-180, 10], [-180, -90]]
+        ], [
+          [[-110, -45], [110, -45], [110, 45], [-110, 45], [-110, -45]]
+        ]
+      ]
+    });
+    expect(bbox).to.eql([-180, -90, 110, 45]);
+  });
+
+});
