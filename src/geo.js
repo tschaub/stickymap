@@ -1,44 +1,42 @@
 var merc = require('./merc');
 
 exports.transform = function(obj) {
-  var transformed;
+  var coordinates;
   switch (obj.type) {
+    case 'Point':
+    case 'LineString':
     case 'Polygon':
-      transformed = {
-        type: obj.type,
-        coordinates: transformPolygonCoords(obj.coordinates)
-      };
-      break;
+    case 'MultiPoint':
+    case 'MultiLineString':
     case 'MultiPolygon':
-      transformed = {
-        type: obj.type,
-        coordinates: transformMultiPolygonCoords(obj.coordinates)
-      };
+      coordinates = transformCoordinates(obj.coordinates);
       break;
     default:
       throw new Error('GeoJSON type ' + obj.type + ' not supported');
   }
-  return transformed;
+  return {
+    type: obj.type,
+    coordinates: coordinates
+  };
 };
 
-function transformPolygonCoords(coordinates) {
-  coordinates = coordinates.slice();
-  for (var i = 0, ii = coordinates.length; i < ii; ++i) {
-    var ring = coordinates[i].slice();
-    for (var j = 0, jj = ring.length; j < jj; ++j) {
-      ring[j] = merc.forward(ring[j]);
+function transformCoordinates(input) {
+  var output;
+  if (!Array.isArray(input)) {
+    throw new Error('Invalid coordinates');
+  }
+  if (!Array.isArray(input[0])) {
+    if (input.length < 2) {
+      throw new Error('Invalid coordinates');
     }
-    coordinates[i] = ring;
+    output = merc.forward(input);
+  } else {
+    output = input.slice();
+    for (var i = 0, ii = input.length; i < ii; ++i) {
+      output[i] = transformCoordinates(input[i]);
+    }
   }
-  return coordinates;
-}
-
-function transformMultiPolygonCoords(coordinates) {
-  coordinates = coordinates.slice();
-  for (var i = 0, ii = coordinates.length; i < ii; ++i) {
-    coordinates[i] = transformPolygonCoords(coordinates[i]);
-  }
-  return coordinates;
+  return output;
 }
 
 exports.getBbox = function(obj) {

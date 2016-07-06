@@ -6,7 +6,7 @@ Sticky maps.
 
 ```js
 var map = stickymap({
-  bbox: [-120, 40, -100, 60],
+  fit: [-120, 40, -100, 60],
   layers: [
     {url: 'http://example.com/{z}/{x}/{y}.png'}
   ],
