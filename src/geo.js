@@ -58,8 +58,8 @@ function transformCoordinates(input) {
   return output;
 }
 
-exports.getBbox = function(obj) {
-  var bbox = [Infinity, Infinity, -Infinity, -Infinity];
+var getBbox = exports.getBbox = function(obj, bbox) {
+  bbox = bbox || [Infinity, Infinity, -Infinity, -Infinity];
   switch (obj.type) {
     case 'Point':
     case 'LineString':
@@ -70,7 +70,10 @@ exports.getBbox = function(obj) {
       getCoordinatesBbox(obj.coordinates, bbox);
       break;
     case 'GeometryCollection':
-      obj.geometries.forEach(geometry => getCoordinatesBbox(geometry.coordinates, bbox));
+      obj.geometries.forEach(geometry => getBbox(geometry, bbox));
+      break;
+    case 'Feature':
+      getBbox(obj.geometry, bbox);
       break;
     default:
       throw new Error('GeoJSON type ' + obj.type + ' not supported');

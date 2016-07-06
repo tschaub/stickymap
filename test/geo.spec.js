@@ -287,4 +287,17 @@ describe('getBbox()', function() {
     expect(bbox).to.eql([-180, -90, 10, 23]);
   });
 
+  it('works for Feature', function() {
+    var bbox = geo.getBbox({
+      type: 'Feature',
+      geometry: {
+        type: 'Polygon',
+        coordinates: [
+          [[-180, -90], [0, -90], [0, 10], [-180, 10], [-180, -90]]
+        ]
+      }
+    });
+    expect(bbox).to.eql([-180, -90, 0, 10]);
+  });
+
 });
