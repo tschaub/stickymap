@@ -20,6 +20,13 @@ var transform = exports.transform = function(obj) {
         geometries: obj.geometries.map(geometry => transform(geometry))
       };
       break;
+    case 'Feature':
+      transformed = {
+        type: obj.type,
+        properties: obj.properties,
+        geometry: transform(obj.geometry)
+      };
+      break;
     default:
       throw new Error('GeoJSON type ' + obj.type + ' not supported');
   }

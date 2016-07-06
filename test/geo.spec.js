@@ -152,4 +152,28 @@ describe('transform', function() {
     });
   });
 
+  it('works for Feature', function() {
+
+    var gg = {
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [-180, 90]
+      },
+      properties: {
+        foo: 'bar'
+      }
+    };
+
+    var wm = geo.transform(gg);
+
+    expect(wm.type).to.equal('Feature');
+    expect(wm.properties).to.eql(gg.properties);
+    expectGeom(wm.geometry, {
+      type: 'Point',
+      coordinates: [-merc.EDGE, merc.EDGE]
+    });
+
+  });
+
 });
