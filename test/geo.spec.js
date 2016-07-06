@@ -269,4 +269,22 @@ describe('getBbox()', function() {
     expect(bbox).to.eql([-180, -90, 110, 45]);
   });
 
+  it('works for GeometryCollection', function() {
+    var bbox = geo.getBbox({
+      type: 'GeometryCollection',
+      geometries: [
+        {
+          type: 'Polygon',
+          coordinates: [
+            [[-180, -90], [0, -90], [0, 10], [-180, 10], [-180, -90]]
+          ]
+        }, {
+          type: 'Point',
+          coordinates: [10, 23]
+        }
+      ]
+    });
+    expect(bbox).to.eql([-180, -90, 10, 23]);
+  });
+
 });

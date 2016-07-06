@@ -69,6 +69,9 @@ exports.getBbox = function(obj) {
     case 'MultiPolygon':
       getCoordinatesBbox(obj.coordinates, bbox);
       break;
+    case 'GeometryCollection':
+      obj.geometries.forEach(geometry => getCoordinatesBbox(geometry.coordinates, bbox));
+      break;
     default:
       throw new Error('GeoJSON type ' + obj.type + ' not supported');
   }
