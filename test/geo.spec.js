@@ -176,4 +176,33 @@ describe('transform', function() {
 
   });
 
+  it('works for FeatureCollection', function() {
+
+    var gg = {
+      type: 'FeatureCollection',
+      features: [
+        {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [-180, 90]
+          },
+          properties: {
+            foo: 'bar'
+          }
+        }
+      ]
+    };
+
+    var wm = geo.transform(gg);
+
+    expect(wm.type).to.equal('FeatureCollection');
+    expect(wm.features).to.be.an('array');
+    expectGeom(wm.features[0].geometry, {
+      type: 'Point',
+      coordinates: [-merc.EDGE, merc.EDGE]
+    });
+
+  });
+
 });

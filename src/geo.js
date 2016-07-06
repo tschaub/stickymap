@@ -27,6 +27,12 @@ var transform = exports.transform = function(obj) {
         geometry: transform(obj.geometry)
       };
       break;
+    case 'FeatureCollection':
+      transformed = {
+        type: obj.type,
+        features: obj.features.map(feature => transform(feature))
+      };
+      break;
     default:
       throw new Error('GeoJSON type ' + obj.type + ' not supported');
   }
