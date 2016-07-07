@@ -41,6 +41,11 @@ module.exports = function(tileSets, config) {
 
 function setClipPath(context, obj, transform) {
   context.beginPath();
+  setGeoClipPath(context, obj, transform);
+  context.clip();
+}
+
+function setGeoClipPath(context, obj, transform) {
   switch (obj.type) {
     case 'Polygon':
       setPolygonPath(context, obj.coordinates, transform);
@@ -48,10 +53,18 @@ function setClipPath(context, obj, transform) {
     case 'MultiPolygon':
       setMultiPolygonPath(context, obj.coordinates, transform);
       break;
+    case 'GeometryCollection':
+      obj.geometries.forEach(geometry => setGeoClipPath(context, geometry, transform));
+      break;
+    case 'Feature':
+      setGeoClipPath(context, obj.geometry, transform);
+      break;
+    case 'FeatureCollection':
+      obj.features.forEach(feature => setGeoClipPath(context, feature.geometry, transform));
+      break;
     default:
-      throw new Error('Unsupported type for clip path: ' + obj.type);
+      // do nothing
   }
-  context.clip();
 }
 
 function setPolygonPath(context, coordinates, transform) {
