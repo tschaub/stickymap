@@ -76,7 +76,7 @@ var getBbox = exports.getBbox = function(obj, bbox) {
       getBbox(obj.geometry, bbox);
       break;
     case 'FeatureCollection':
-      obj.features.forEach(feature => getBbox(feature, bbox));
+      obj.features.forEach(feature => getBbox(feature.geometry, bbox));
       break;
     default:
       throw new Error('GeoJSON type ' + obj.type + ' not supported');
