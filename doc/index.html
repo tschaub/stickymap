@@ -8,17 +8,25 @@
   <body>
     <script>
 
-      fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries/USA/MT.geo.json').then(function(response) {
+      var url = 'https://raw.githubusercontent.com/johan/world.geo.json/master/countries/USA/MT.geo.json';
+
+      function getJson(response) {
         return response.json();
-      }).then(function(collection) {
-        document.body.appendChild(stickymap({
-          clip: collection.features[0].geometry,
+      }
+
+      function createMap(geoJson) {
+        var map = stickymap({
+          clip: geoJson,
           width: 500,
           layers: [{
             url: 'https://a.tiles.mapbox.com/v3/mapbox.blue-marble-topo-jul/{z}/{x}/{y}.png'
           }]
-        }));
-      });
+        });
+
+        document.body.appendChild(map);
+      }
+
+      fetch(url).then(getJson).then(createMap);
 
     </script>
   </body>
