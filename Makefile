@@ -17,4 +17,4 @@ build/index.html: doc/index.html
 
 build/stickymap.js: src/*.js node_modules/.time
 	@mkdir -p build
-	@browserify src/index.js --standalone stickymap --outfile $@;
+	@browserify src/index.js --debug --standalone stickymap --outfile $@;

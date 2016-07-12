@@ -19,7 +19,12 @@
           clip: geoJson,
           width: 500,
           layers: [{
-            url: 'https://a.tiles.mapbox.com/v3/mapbox.blue-marble-topo-jul/{z}/{x}/{y}.png'
+            urls: [
+              'https://a.tiles.mapbox.com/v3/mapbox.blue-marble-topo-jul/{z}/{x}/{y}.png',
+              'https://b.tiles.mapbox.com/v3/mapbox.blue-marble-topo-jul/{z}/{x}/{y}.png',
+              'https://c.tiles.mapbox.com/v3/mapbox.blue-marble-topo-jul/{z}/{x}/{y}.png',
+              'https://d.tiles.mapbox.com/v3/mapbox.blue-marble-topo-jul/{z}/{x}/{y}.png'
+            ]
           }]
         });
 
