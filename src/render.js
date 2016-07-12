@@ -54,13 +54,17 @@ function setGeoClipPath(context, obj, transform) {
       setMultiPolygonPath(context, obj.coordinates, transform);
       break;
     case 'GeometryCollection':
-      obj.geometries.forEach(geometry => setGeoClipPath(context, geometry, transform));
+      obj.geometries.forEach(function(geometry) {
+        setGeoClipPath(context, geometry, transform);
+      });
       break;
     case 'Feature':
       setGeoClipPath(context, obj.geometry, transform);
       break;
     case 'FeatureCollection':
-      obj.features.forEach(feature => setGeoClipPath(context, feature.geometry, transform));
+      obj.features.forEach(function(feature) {
+        setGeoClipPath(context, feature.geometry, transform);
+      });
       break;
     default:
       // do nothing

@@ -17,7 +17,7 @@ var transform = exports.transform = function(obj) {
     case 'GeometryCollection':
       transformed = {
         type: obj.type,
-        geometries: obj.geometries.map(geometry => transform(geometry))
+        geometries: obj.geometries.map(transform)
       };
       break;
     case 'Feature':
@@ -30,7 +30,7 @@ var transform = exports.transform = function(obj) {
     case 'FeatureCollection':
       transformed = {
         type: obj.type,
-        features: obj.features.map(feature => transform(feature))
+        features: obj.features.map(transform)
       };
       break;
     default:
@@ -70,13 +70,17 @@ var getBbox = exports.getBbox = function(obj, bbox) {
       getCoordinatesBbox(obj.coordinates, bbox);
       break;
     case 'GeometryCollection':
-      obj.geometries.forEach(geometry => getBbox(geometry, bbox));
+      obj.geometries.forEach(function(geometry) {
+        getBbox(geometry, bbox);
+      });
       break;
     case 'Feature':
       getBbox(obj.geometry, bbox);
       break;
     case 'FeatureCollection':
-      obj.features.forEach(feature => getBbox(feature.geometry, bbox));
+      obj.features.forEach(function(feature) {
+        getBbox(feature.geometry, bbox);
+      });
       break;
     default:
       throw new Error('GeoJSON type ' + obj.type + ' not supported');
