@@ -1,24 +1,18 @@
-var xyz = require('./xyz');
-
-function Tile(url, x, y, z, options) {
+function Untile(url, bbox, options) {
   this.url = url;
-  this.x = x;
-  this.y = y;
-  this.z = z;
+  this.bbox = bbox;
   this.options = options || {};
 }
 
-Tile.prototype.load = function(callback) {
+Untile.prototype.load = function(callback) {
   var image = new Image();
   image.crossOrigin = this.options.crossOrigin || 'anonymous';
-  image.width = xyz.SIZE;
-  image.height = xyz.SIZE;
   this.image = image;
 
   var url = this.url;
-  var tile = this;
+  var untile = this;
   image.addEventListener('load', function() {
-    callback(null, tile);
+    callback(null, untile);
   });
   image.addEventListener('error', function() {
     callback(new Error('Failed to load ' + url));
@@ -26,4 +20,4 @@ Tile.prototype.load = function(callback) {
   image.src = url;
 };
 
-module.exports = Tile;
+module.exports = Untile;

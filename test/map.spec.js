@@ -7,7 +7,8 @@ describe('constructor', function() {
     var map = new StickyMap({
       fit: [-180, -90, 180, 90],
       width: 100,
-      height: 100
+      height: 100,
+      layers: []
     });
 
     expect(map).to.be.an.instanceOf(StickyMap);
@@ -17,7 +18,8 @@ describe('constructor', function() {
     var call = function() {
       return new StickyMap({
         width: 100,
-        height: 100
+        height: 100,
+        layers: []
       });
     };
 
@@ -27,7 +29,8 @@ describe('constructor', function() {
   it('throws if width and height are missing', function() {
     var call = function() {
       return new StickyMap({
-        fit: [-180, -90, 180, 90]
+        fit: [-180, -90, 180, 90],
+        layers: []
       });
     };
 
@@ -44,7 +47,8 @@ describe('#canvas', function() {
       var map = new StickyMap({
         fit: [-180, -90, 180, 90],
         width: 150,
-        height: 100
+        height: 100,
+        layers: []
       });
 
       expect(map.canvas.width).to.eql(150);
@@ -53,7 +57,8 @@ describe('#canvas', function() {
     it('is calculated if not provided explicitly', function() {
       var map = new StickyMap({
         fit: [-180, -90, 180, 90],
-        height: 100
+        height: 100,
+        layers: []
       });
 
       expect(map.canvas.width).to.eql(100);
@@ -67,7 +72,8 @@ describe('#canvas', function() {
       var map = new StickyMap({
         fit: [-180, -90, 180, 90],
         width: 150,
-        height: 100
+        height: 100,
+        layers: []
       });
 
       expect(map.canvas.height).to.eql(100);
@@ -76,31 +82,12 @@ describe('#canvas', function() {
     it('is calculated if not provided explicitly', function() {
       var map = new StickyMap({
         fit: [-180, 0, 0, 90],
-        width: 200
+        width: 200,
+        layers: []
       });
 
       expect(map.canvas.height).to.eql(200);
     });
-
-  });
-
-});
-
-describe('#load()', function() {
-
-  it('returns a promise', function() {
-
-    var map = new StickyMap({
-      fit: [-120, 40, -100, 60],
-      layers: [
-        {url: 'http://example.com/{z}/{x}/{y}.png'}
-      ],
-      width: 200,
-      height: 150
-    });
-
-    var promise = map.load();
-    expect(promise).to.be.an.instanceOf(Promise);
 
   });
 
