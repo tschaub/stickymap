@@ -34,3 +34,21 @@ describe('resize', function() {
     expect(old).to.eql([-10, 5, 0, 15]);
   });
 });
+
+describe('intersect', function() {
+  it('retruns the intersection of two boxes', function() {
+    var world = [-180, -90, 180, 90];
+    var northwest = [-200, 0, 0, 190];
+    var intersection = bbox.intersect(world, northwest);
+    expect(intersection).to.eql([-180, 0, 0, 90]);
+  });
+});
+
+describe('isEmpty', function() {
+  it('tests for empty bbox', function() {
+    var east = [0, -90, 180, 90];
+    var west = [-180, 0, 0, 90];
+    var intersection = bbox.intersect(east, west);
+    expect(bbox.isEmpty(intersection)).to.eql(true);
+  });
+});
