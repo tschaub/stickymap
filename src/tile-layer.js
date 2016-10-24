@@ -1,4 +1,5 @@
 var Tile = require('./tile');
+var bbox = require('./bbox');
 var merc = require('./merc');
 var xyz = require('./xyz');
 
@@ -9,6 +10,7 @@ function pick(urls, x, y, z) {
 
 function TileLayer(config) {
   this.bbox = config.bbox;
+  this.layerBbox = config.layerBbox;
   this.resolution = config.resolution;
   this.context = config.context;
   this.urls = config.urls;
@@ -19,7 +21,7 @@ function TileLayer(config) {
 
 TileLayer.prototype.load = function() {
   var z = xyz.getZ(this.resolution);
-  var range = xyz.getRange(this.bbox, z);
+  var range = xyz.getRange(bbox.intersect(this.bbox, this.layerBbox), z);
   this.loading = 0;
   var handleTileLoad = this.handleTileLoad.bind(this);
   for (var x = range.minX; x <= range.maxX; ++x) {
