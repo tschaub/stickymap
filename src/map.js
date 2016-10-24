@@ -57,10 +57,18 @@ function StickyMap(config) {
         onLoad: render
       });
     } else {
+      var bbox = dimensions.bbox;
+      var layerBbox = layerConfig.bbox;
+      if (layerBbox) {
+        if (!Array.isArray(layerBbox)) {
+          layerBbox = geo.getBbox(layerBbox);
+        }
+      }
       return new TileLayer({
         context: context,
         resolution: dimensions.resolution,
-        bbox: dimensions.bbox,
+        bbox: bbox,
+        layerBbox: layerBbox ? merc.forward(layerBbox) : bbox,
         urls: layerConfig.urls || [layerConfig.url],
         onTileLoad: render
       });
