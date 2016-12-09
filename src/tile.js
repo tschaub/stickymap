@@ -10,7 +10,9 @@ function Tile(url, x, y, z, options) {
 
 Tile.prototype.load = function(callback) {
   var image = new Image();
-  image.crossOrigin = this.options.crossOrigin || 'anonymous';
+  if (this.options.crossOrigin) {
+    image.crossOrigin = this.options.crossOrigin;
+  }
   image.width = xyz.SIZE;
   image.height = xyz.SIZE;
   this.image = image;
