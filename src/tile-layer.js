@@ -5,7 +5,9 @@ var xyz = require('./xyz');
 
 function pick(urls, x, y, z) {
   var hash = (x << z) + y;
-  return urls[hash % urls.length];
+  var length = urls.length;
+  var index = hash % length;
+  return urls[index < 0 ? index + length : index];
 }
 
 function TileLayer(config) {
