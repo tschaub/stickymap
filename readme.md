@@ -1,7 +1,5 @@
 # stickymap
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/tschaub/stickymap.svg)](https://greenkeeper.io/)
-
 Sticky maps.
 
 # the rough idea
