@@ -64,12 +64,16 @@ function StickyMap(config) {
           layerBbox = geo.getBbox(layerBbox);
         }
       }
+      var urls = layerConfig.urls;
+      if (!urls) {
+        urls = util.expandUrl(layerConfig.url);
+      }
       return new TileLayer({
         context: context,
         resolution: dimensions.resolution,
         bbox: bbox,
         layerBbox: layerBbox ? merc.forward(layerBbox) : bbox,
-        urls: layerConfig.urls || [layerConfig.url],
+        urls: urls,
         onTileLoad: render
       });
     }
