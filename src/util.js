@@ -30,3 +30,23 @@ exports.resolveDimensions = function(config) {
     height: height
   };
 };
+
+var URL_RANGE = /{([0-9a-zA-Z])-([0-9a-zA-Z])}/;
+exports.expandUrl = function(url) {
+  var urls;
+  var match = url.match(URL_RANGE);
+  if (match) {
+    var start = match[1].charCodeAt(0);
+    var end = match[2].charCodeAt(0);
+    if (!(end > start)) {
+      throw new Error('Invalid range in URL template: ' + match[1] + '-' + match[2]);
+    }
+    urls = [];
+    for (var i = start; i <= end; ++i) {
+      urls.push(url.replace(match[0], String.fromCharCode(i)));
+    }
+  } else {
+    urls = [url];
+  }
+  return urls;
+};
