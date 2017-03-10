@@ -4,6 +4,9 @@ exports.resolveDimensions = function(config) {
   var minMapBbox = config.bbox;
   var minMapWidth = bbox.width(minMapBbox);
   var minMapHeight = bbox.height(minMapBbox);
+  if (minMapWidth <= 0 || minMapHeight <= 0) {
+    throw new Error('Map must have non-empty bbox');
+  }
   var width, height, widthResolution, heightResolution, resolution;
   if (config.width) {
     width = config.width;
