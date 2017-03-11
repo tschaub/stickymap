@@ -26,6 +26,19 @@ describe('constructor', function() {
     expect(call).to.throw(Error, /must have fit or clip/);
   });
 
+  it('throws if bbox is empty', function() {
+    var call = function() {
+      return new StickyMap({
+        fit: [10, -10, 10, -10],
+        width: 100,
+        height: 100,
+        layers: []
+      });
+    };
+
+    expect(call).to.throw(Error, /must have non-empty bbox/);
+  });
+
   it('throws if width and height are missing', function() {
     var call = function() {
       return new StickyMap({

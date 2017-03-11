@@ -46,7 +46,9 @@ function StickyMap(config) {
 
   var render = this._render.bind(this);
 
-  this._layers = config.layers.map(function(layerConfig) {
+  var mapLoadError = null;
+  var loaded = 0;
+  var layers = config.layers.map(function(layerConfig) {
     if (layerConfig.untiled) {
       return new UntiledLayer({
         context: context,
@@ -54,7 +56,17 @@ function StickyMap(config) {
         bbox: dimensions.bbox,
         imageBbox: layerConfig.bbox ? merc.forward(layerConfig.bbox) : null,
         url: layerConfig.url,
-        onLoad: render
+        onLoad: function(error) {
+          loaded += 1;
+          if (!error) {
+            render();
+          } else if (!mapLoadError) {
+            mapLoadError = error;
+          }
+          if (loaded === layers.length && config.onLoad) {
+            config.onLoad(mapLoadError);
+          }
+        }
       });
     } else {
       var bbox = dimensions.bbox;
@@ -74,22 +86,32 @@ function StickyMap(config) {
         bbox: bbox,
         layerBbox: layerBbox ? merc.forward(layerBbox) : bbox,
         urls: urls,
-        onTileLoad: render
+        onTileLoad: render,
+        onLoad: function(error) {
+          loaded += 1;
+          if (error && !mapLoadError) {
+            mapLoadError = error;
+          }
+          if (loaded === layers.length && config.onLoad) {
+            config.onLoad(mapLoadError);
+          }
+        }
       });
     }
   });
 
+  this.layers = layers;
   this.canvas = canvas;
 }
 
 StickyMap.prototype.load = function() {
-  this._layers.forEach(function(layer) {
+  this.layers.forEach(function(layer) {
     layer.load();
   });
 };
 
 StickyMap.prototype._render = function() {
-  this._layers.forEach(function(layer) {
+  this.layers.forEach(function(layer) {
     layer.render();
   });
 };

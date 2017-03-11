@@ -37,6 +37,10 @@ A GeoJSON object (of any type) or bounding box ([minLon, minLat, maxLon, maxLat]
 
 A GeoJSON object (of any type) used as a clip path when rendering the map.  Areas outside `clip` will not be rendered.
 
+### `onLoad`
+
+Optional callback that will be called when the map finishes rendering.  The callback will be called with an `Error` if any resources failed to load during map rendering.
+
 ### `layers`
 
 An array of layer configurations.  Layers are rendered from tiled imagery or from a single image.
