@@ -15,10 +15,10 @@ UntiledLayer.prototype.load = function() {
   return untile.load(this.handleUntileLoad.bind(this));
 };
 
-UntiledLayer.prototype.handleUntileLoad = function(err, untile) {
-  if (untile) {
-    this.untile = untile;
-    this.onLoad();
+UntiledLayer.prototype.handleUntileLoad = function(error, untile) {
+  this.untile = untile;
+  if (this.onLoad) {
+    this.onLoad(error);
   }
 };
 

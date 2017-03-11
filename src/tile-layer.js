@@ -19,6 +19,7 @@ function TileLayer(config) {
   this.onTileLoad = config.onTileLoad;
   this.onLoad = config.onLoad;
   this.loadedTiles = [];
+  this.error = null;
 }
 
 TileLayer.prototype.load = function() {
@@ -37,14 +38,19 @@ TileLayer.prototype.load = function() {
   }
 };
 
-TileLayer.prototype.handleTileLoad = function(err, tile) {
+TileLayer.prototype.handleTileLoad = function(error, tile) {
+  if (error) {
+    this.error = error;
+  }
   --this.loading;
   if (tile) {
     this.loadedTiles.push(tile);
-    this.onTileLoad();
+    if (this.onTileLoad) {
+      this.onTileLoad(error);
+    }
   }
   if (!this.loading && this.onLoad) {
-    this.onLoad();
+    this.onLoad(this.error);
   }
 };
 
