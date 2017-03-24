@@ -1,5 +1,6 @@
+var MapLoadError = require('./errors').MapLoadError;
 var TileLayer = require('./tile-layer');
-var UntiledLayer = require('./untiled-layer');
+var ImageLayer = require('./image-layer');
 var geo = require('./geo');
 var merc = require('./merc');
 var util = require('./util');
@@ -46,11 +47,12 @@ function StickyMap(config) {
 
   var render = this._render.bind(this);
 
-  var mapLoadError = null;
+  var errors = [];
   var loaded = 0;
   var layers = config.layers.map(function(layerConfig) {
     if (layerConfig.untiled) {
-      return new UntiledLayer({
+      return new ImageLayer({
+        id: layerConfig.id,
         context: context,
         resolution: dimensions.resolution,
         bbox: dimensions.bbox,
@@ -60,11 +62,15 @@ function StickyMap(config) {
           loaded += 1;
           if (!error) {
             render();
-          } else if (!mapLoadError) {
-            mapLoadError = error;
+          } else {
+            errors.push(error);
           }
           if (loaded === layers.length && config.onLoad) {
-            config.onLoad(mapLoadError);
+            var loadError;
+            if (errors.length > 0) {
+              loadError = new MapLoadError('Map failed to load', errors);
+            }
+            config.onLoad(loadError);
           }
         }
       });
@@ -81,19 +87,28 @@ function StickyMap(config) {
         urls = util.expandUrl(layerConfig.url);
       }
       return new TileLayer({
+        id: layerConfig.id,
         context: context,
         resolution: dimensions.resolution,
         bbox: bbox,
         layerBbox: layerBbox ? merc.forward(layerBbox) : bbox,
         urls: urls,
-        onTileLoad: render,
+        onTileLoad: function(error) {
+          if (!error) {
+            render();
+          }
+        },
         onLoad: function(error) {
           loaded += 1;
-          if (error && !mapLoadError) {
-            mapLoadError = error;
+          if (error) {
+            errors.push(error);
           }
           if (loaded === layers.length && config.onLoad) {
-            config.onLoad(mapLoadError);
+            var loadError;
+            if (errors.length > 0) {
+              loadError = new MapLoadError('Map failed to load', errors);
+            }
+            config.onLoad(loadError);
           }
         }
       });

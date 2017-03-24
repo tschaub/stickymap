@@ -1,3 +1,4 @@
+var TileLoadError = require('./errors').TileLoadError;
 var xyz = require('./xyz');
 
 function Tile(url, x, y, z, options) {
@@ -23,7 +24,7 @@ Tile.prototype.load = function(callback) {
     callback(null, tile);
   });
   image.addEventListener('error', function() {
-    callback(new Error('Failed to load ' + url));
+    callback(new TileLoadError('Failed to load ' + url, tile));
   });
   image.src = url;
 };

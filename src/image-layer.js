@@ -1,7 +1,9 @@
-var bbox = require('./bbox');
 var Untile = require('./untile');
+var ImageLayerLoadError = require('./errors').ImageLayerLoadError;
+var bbox = require('./bbox');
 
-function UntiledLayer(config) {
+function ImageLayer(config) {
+  this.id = config.id;
   this.bbox = config.bbox;
   this.resolution = config.resolution;
   this.context = config.context;
@@ -10,19 +12,23 @@ function UntiledLayer(config) {
   this.onLoad = config.onLoad;
 }
 
-UntiledLayer.prototype.load = function() {
+ImageLayer.prototype.load = function() {
   var untile = new Untile(this.url, this.imageBbox);
-  return untile.load(this.handleUntileLoad.bind(this));
+  return untile.load(this.handleImageLoad.bind(this));
 };
 
-UntiledLayer.prototype.handleUntileLoad = function(error, untile) {
+ImageLayer.prototype.handleImageLoad = function(error, untile) {
   this.untile = untile;
   if (this.onLoad) {
-    this.onLoad(error);
+    var loadError;
+    if (error) {
+      loadError = new ImageLayerLoadError(error.message, this);
+    }
+    this.onLoad(loadError);
   }
 };
 
-UntiledLayer.prototype.render = function() {
+ImageLayer.prototype.render = function() {
   if (!this.untile) {
     return;
   }
@@ -40,4 +46,4 @@ UntiledLayer.prototype.render = function() {
   this.context.restore();
 };
 
-module.exports = UntiledLayer;
+module.exports = ImageLayer;

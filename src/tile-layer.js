@@ -1,4 +1,5 @@
 var Tile = require('./tile');
+var TileLayerLoadError = require('./errors').TileLayerLoadError;
 var bbox = require('./bbox');
 var merc = require('./merc');
 var xyz = require('./xyz');
@@ -11,6 +12,7 @@ function pick(urls, x, y, z) {
 }
 
 function TileLayer(config) {
+  this.id = config.id;
   this.bbox = config.bbox;
   this.layerBbox = config.layerBbox;
   this.resolution = config.resolution;
@@ -19,7 +21,7 @@ function TileLayer(config) {
   this.onTileLoad = config.onTileLoad;
   this.onLoad = config.onLoad;
   this.loadedTiles = [];
-  this.error = null;
+  this.errors = [];
 }
 
 TileLayer.prototype.load = function() {
@@ -40,7 +42,7 @@ TileLayer.prototype.load = function() {
 
 TileLayer.prototype.handleTileLoad = function(error, tile) {
   if (error) {
-    this.error = error;
+    this.errors.push(error);
   }
   --this.loading;
   if (tile) {
@@ -49,8 +51,12 @@ TileLayer.prototype.handleTileLoad = function(error, tile) {
       this.onTileLoad(error);
     }
   }
-  if (!this.loading && this.onLoad) {
-    this.onLoad(this.error);
+  if (this.loading <= 0 && this.onLoad) {
+    var loadError;
+    if (this.errors.length > 0) {
+      loadError = new TileLayerLoadError('Layer failed to load completely', this);
+    }
+    this.onLoad(loadError);
   }
 };
 
