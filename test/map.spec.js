@@ -1,5 +1,6 @@
 var StickyMap = require('../src/map');
 var expect = require('chai').expect;
+var errors = require('../src/errors');
 
 describe('constructor', function() {
 
@@ -48,6 +49,63 @@ describe('constructor', function() {
     };
 
     expect(call).to.throw(Error, /must be given a width or height/);
+  });
+
+});
+
+describe('onLoad', function() {
+
+  it('is called after all layers load', function(done) {
+    var map = new StickyMap({
+      fit: [-180, -90, 180, 90],
+      width: 200,
+      layers: [{
+        url: 'base/fixtures/layers/osm/{z}/{x}/{y}.png'
+      }],
+      onLoad: function(error) {
+        expect(error).to.be.an('undefined');
+        done();
+      }
+    });
+
+    map.load();
+  });
+
+  it('is called with a MapLoadError if any layers fail to load', function(done) {
+    var map = new StickyMap({
+      fit: [-180, -90, 180, 90],
+      width: 200,
+      layers: [{
+        id: 'bad tile layer',
+        url: 'bad:tile'
+      }, {
+        url: 'base/fixtures/layers/osm/{z}/{x}/{y}.png'
+      }, {
+        untiled: true,
+        id: 'bad image layer',
+        url: 'bad:image'
+      }],
+      onLoad: function(error) {
+        expect(error).to.be.an.instanceOf(errors.MapLoadError);
+        expect(error.errors).to.have.lengthOf(2);
+
+        var loadErrors = error.errors.slice().sort(function(a, b) {
+          return a.id < b.id ? -1 : 1;
+        });
+
+        expect(loadErrors[0]).to.be.an.instanceOf(errors.LayerLoadError);
+        expect(loadErrors[0]).to.be.an.instanceOf(errors.ImageLayerLoadError);
+        expect(loadErrors[0].layer.id).to.equal('bad image layer');
+
+        expect(loadErrors[1]).to.be.an.instanceOf(errors.LayerLoadError);
+        expect(loadErrors[1]).to.be.an.instanceOf(errors.TileLayerLoadError);
+        expect(loadErrors[1].layer.id).to.equal('bad tile layer');
+
+        done();
+      }
+    });
+
+    map.load();
   });
 
 });

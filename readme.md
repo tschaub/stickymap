@@ -49,9 +49,9 @@ An array of layer configurations.  Layers are rendered from tiled imagery or fro
 
 Tiled layers must have a `url` or `urls` property.  An array of `urls` can be provided to fetch tiles from more than one subdomain (for example).  URLs must include `{x}`, `{y}`, and `{z}` placeholders.  If a single `url` is provided, it can include a range of numbers or characters that will be used to expand the URL into an array of URLs (`{0-4}` or `{a-d}` for example).
 
-#### Untiled layer properties
+#### Image layer properties
 
-Layers can be rendered from a single image by setting `untiled: true`.  Untiled layers must have a `bbox` property that describes the bounding box (`[minLon, minLat, maxLon, maxLat]`) of the image.  In addition, untiled layers must have a `url` property with the URL of the image to be rendered.
+Layers can be rendered from a single image by setting `untiled: true`.  Image layers must have a `bbox` property that describes the bounding box (`[minLon, minLat, maxLon, maxLat]`) of the image.  In addition, untiled layers must have a `url` property with the URL of the image to be rendered.
 
 
 [![Build Status](https://travis-ci.org/tschaub/stickymap.svg?branch=master)](https://travis-ci.org/tschaub/stickymap)
