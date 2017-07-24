@@ -6,7 +6,6 @@
  * @constructor
  */
 function MapLoadError(message, errors) {
-
   /**
    * A message providing details about the error.
    * @type {string}
@@ -23,12 +22,10 @@ function MapLoadError(message, errors) {
    * The stack trace for the error.
    * @type {string}
    */
-  this.stack = (new Error()).stack;
-
+  this.stack = new Error().stack;
 }
 MapLoadError.prototype = new Error();
 MapLoadError.prototype.name = 'MapLoadError';
-
 
 /**
  * The layer failed to load.
@@ -37,7 +34,6 @@ MapLoadError.prototype.name = 'MapLoadError';
  * @constructor
  */
 function LayerLoadError(message, layer) {
-
   /**
    * A message providing details about the error.
    * @type {string}
@@ -54,12 +50,10 @@ function LayerLoadError(message, layer) {
    * The stack trace for the error.
    * @type {string}
    */
-  this.stack = (new Error()).stack;
-
+  this.stack = new Error().stack;
 }
 LayerLoadError.prototype = new Error();
 LayerLoadError.prototype.name = 'LayerLoadError';
-
 
 /**
  * The untiled layer failed to load.
@@ -73,7 +67,6 @@ function ImageLayerLoadError(message, layer) {
 ImageLayerLoadError.prototype = new LayerLoadError();
 ImageLayerLoadError.prototype.name = 'ImageLayerLoadError';
 
-
 /**
  * The tile layer failed to load.
  * @param {string} message Error message.
@@ -86,7 +79,6 @@ function TileLayerLoadError(message, layer) {
 TileLayerLoadError.prototype = new LayerLoadError();
 TileLayerLoadError.prototype.name = 'TileLayerLoadError';
 
-
 /**
  * The tile failed to load.
  * @param {string} message Error message.
@@ -94,7 +86,6 @@ TileLayerLoadError.prototype.name = 'TileLayerLoadError';
  * @constructor
  */
 function TileLoadError(message, tile) {
-
   /**
    * A message providing details about the error.
    * @type {string}
@@ -111,12 +102,10 @@ function TileLoadError(message, tile) {
    * The stack trace for the error.
    * @type {string}
    */
-  this.stack = (new Error()).stack;
-
+  this.stack = new Error().stack;
 }
 TileLoadError.prototype = new LayerLoadError();
 TileLoadError.prototype.name = 'TileLoadError';
-
 
 exports.MapLoadError = MapLoadError;
 exports.LayerLoadError = LayerLoadError;

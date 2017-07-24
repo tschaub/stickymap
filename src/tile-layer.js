@@ -20,12 +20,16 @@ function TileLayer(config) {
   this.urls = config.urls;
   this.onTileLoad = config.onTileLoad;
   this.onLoad = config.onLoad;
+  this.maxZoom = config.maxZoom;
   this.loadedTiles = [];
   this.errors = [];
 }
 
 TileLayer.prototype.load = function() {
   var z = xyz.getZ(this.resolution);
+  if (this.maxZoom && z > this.maxZoom) {
+    z = this.maxZoom;
+  }
   var range = xyz.getRange(bbox.intersect(this.bbox, this.layerBbox), z);
   this.loading = 0;
   var handleTileLoad = this.handleTileLoad.bind(this);
@@ -54,7 +58,10 @@ TileLayer.prototype.handleTileLoad = function(error, tile) {
   if (this.loading <= 0 && this.onLoad) {
     var loadError;
     if (this.errors.length > 0) {
-      loadError = new TileLayerLoadError('Layer failed to load completely', this);
+      loadError = new TileLayerLoadError(
+        'Layer failed to load completely',
+        this
+      );
     }
     this.onLoad(loadError);
   }

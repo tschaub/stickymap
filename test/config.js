@@ -9,10 +9,7 @@ module.exports = function(config) {
   config.set({
     frameworks: ['source-map-support', 'browserify', 'mocha'],
     browsers: browsers,
-    files: [
-      '**/*.spec.js',
-      {pattern: 'fixtures/**/*', included: false}
-    ],
+    files: ['**/*.spec.js', {pattern: 'fixtures/**/*', included: false}],
     preprocessors: {
       '**/*.js': ['browserify']
     },

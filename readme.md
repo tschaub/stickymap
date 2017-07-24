@@ -49,6 +49,8 @@ An array of layer configurations.  Layers are rendered from tiled imagery or fro
 
 Tiled layers must have a `url` or `urls` property.  An array of `urls` can be provided to fetch tiles from more than one subdomain (for example).  URLs must include `{x}`, `{y}`, and `{z}` placeholders.  If a single `url` is provided, it can include a range of numbers or characters that will be used to expand the URL into an array of URLs (`{0-4}` or `{a-d}` for example).
 
+Tiled layers can have an optional `maxZoom` property to configure the maximum zoom level for requesting tiles.  For example, if a tile set is only available up to zoom level 15, set `maxZoom: 15`.
+
 #### Image layer properties
 
 Layers can be rendered from a single image by setting `untiled: true`.  Image layers must have a `bbox` property that describes the bounding box (`[minLon, minLat, maxLon, maxLat]`) of the image.  In addition, untiled layers must have a `url` property with the URL of the image to be rendered.

@@ -32,7 +32,6 @@ function expectCoordinates(actual, expected) {
 }
 
 describe('transform', function() {
-
   it('works for Point', function() {
     var gg = {
       type: 'Point',
@@ -66,8 +65,20 @@ describe('transform', function() {
     expectGeom(geo.transform(gg), {
       type: 'Polygon',
       coordinates: [
-        [[-merc.EDGE, -merc.EDGE], [merc.EDGE, -merc.EDGE], [merc.EDGE, merc.EDGE], [-merc.EDGE, merc.EDGE], [-merc.EDGE, -merc.EDGE]],
-        [[-12245143.987260092, -5621521.486192067], [-12245143.987260092, 5621521.486192066], [12245143.987260092, 5621521.486192066], [12245143.987260092, -5621521.486192067], [-12245143.987260092, -5621521.486192067]]
+        [
+          [-merc.EDGE, -merc.EDGE],
+          [merc.EDGE, -merc.EDGE],
+          [merc.EDGE, merc.EDGE],
+          [-merc.EDGE, merc.EDGE],
+          [-merc.EDGE, -merc.EDGE]
+        ],
+        [
+          [-12245143.987260092, -5621521.486192067],
+          [-12245143.987260092, 5621521.486192066],
+          [12245143.987260092, 5621521.486192066],
+          [12245143.987260092, -5621521.486192067],
+          [-12245143.987260092, -5621521.486192067]
+        ]
       ]
     });
   });
@@ -86,10 +97,7 @@ describe('transform', function() {
   it('works for MultiLineString', function() {
     var gg = {
       type: 'MultiLineString',
-      coordinates: [
-        [[-180, 90], [180, -90]],
-        [[180, -90], [-180, 90]]
-      ]
+      coordinates: [[[-180, 90], [180, -90]], [[180, -90], [-180, 90]]]
     };
     expectGeom(geo.transform(gg), {
       type: 'MultiLineString',
@@ -104,34 +112,44 @@ describe('transform', function() {
     var gg = {
       type: 'MultiPolygon',
       coordinates: [
-        [
-          [[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]]
-        ], [
-          [[-110, -45], [110, -45], [110, 45], [-110, 45], [-110, -45]]
-        ]
+        [[[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]]],
+        [[[-110, -45], [110, -45], [110, 45], [-110, 45], [-110, -45]]]
       ]
     };
     expectGeom(geo.transform(gg), {
       type: 'MultiPolygon',
       coordinates: [
         [
-          [[-merc.EDGE, -merc.EDGE], [merc.EDGE, -merc.EDGE], [merc.EDGE, merc.EDGE], [-merc.EDGE, merc.EDGE], [-merc.EDGE, -merc.EDGE]]
-        ], [
-          [[-12245143.987260092, -5621521.486192067], [12245143.987260092, -5621521.486192066], [12245143.987260092, 5621521.486192066], [-12245143.987260092, 5621521.486192067], [-12245143.987260092, -5621521.486192067]]
+          [
+            [-merc.EDGE, -merc.EDGE],
+            [merc.EDGE, -merc.EDGE],
+            [merc.EDGE, merc.EDGE],
+            [-merc.EDGE, merc.EDGE],
+            [-merc.EDGE, -merc.EDGE]
+          ]
+        ],
+        [
+          [
+            [-12245143.987260092, -5621521.486192067],
+            [12245143.987260092, -5621521.486192066],
+            [12245143.987260092, 5621521.486192066],
+            [-12245143.987260092, 5621521.486192067],
+            [-12245143.987260092, -5621521.486192067]
+          ]
         ]
       ]
     });
   });
 
   it('works for GeometryCollection', function() {
-
     var gg = {
       type: 'GeometryCollection',
       geometries: [
         {
           type: 'Point',
           coordinates: [-180, 90]
-        }, {
+        },
+        {
           type: 'LineString',
           coordinates: [[-180, 90], [180, -90]]
         }
@@ -144,7 +162,8 @@ describe('transform', function() {
         {
           type: 'Point',
           coordinates: [-merc.EDGE, merc.EDGE]
-        }, {
+        },
+        {
           type: 'LineString',
           coordinates: [[-merc.EDGE, merc.EDGE], [merc.EDGE, -merc.EDGE]]
         }
@@ -153,7 +172,6 @@ describe('transform', function() {
   });
 
   it('works for Feature', function() {
-
     var gg = {
       type: 'Feature',
       geometry: {
@@ -173,11 +191,9 @@ describe('transform', function() {
       type: 'Point',
       coordinates: [-merc.EDGE, merc.EDGE]
     });
-
   });
 
   it('works for FeatureCollection', function() {
-
     var gg = {
       type: 'FeatureCollection',
       features: [
@@ -202,13 +218,10 @@ describe('transform', function() {
       type: 'Point',
       coordinates: [-merc.EDGE, merc.EDGE]
     });
-
   });
-
 });
 
 describe('getBbox()', function() {
-
   it('works for Point', function() {
     var bbox = geo.getBbox({
       type: 'Point',
@@ -247,10 +260,7 @@ describe('getBbox()', function() {
   it('works for MultiLineString', function() {
     var bbox = geo.getBbox({
       type: 'MultiLineString',
-      coordinates: [
-        [[-110, 45], [110, -45]],
-        [[-180, 45], [110, -55]]
-      ]
+      coordinates: [[[-110, 45], [110, -45]], [[-180, 45], [110, -55]]]
     });
     expect(bbox).to.eql([-180, -55, 110, 45]);
   });
@@ -259,11 +269,8 @@ describe('getBbox()', function() {
     var bbox = geo.getBbox({
       type: 'MultiPolygon',
       coordinates: [
-        [
-          [[-180, -90], [0, -90], [0, 10], [-180, 10], [-180, -90]]
-        ], [
-          [[-110, -45], [110, -45], [110, 45], [-110, 45], [-110, -45]]
-        ]
+        [[[-180, -90], [0, -90], [0, 10], [-180, 10], [-180, -90]]],
+        [[[-110, -45], [110, -45], [110, 45], [-110, 45], [-110, -45]]]
       ]
     });
     expect(bbox).to.eql([-180, -90, 110, 45]);
@@ -278,7 +285,8 @@ describe('getBbox()', function() {
           coordinates: [
             [[-180, -90], [0, -90], [0, 10], [-180, 10], [-180, -90]]
           ]
-        }, {
+        },
+        {
           type: 'Point',
           coordinates: [10, 23]
         }
@@ -292,9 +300,7 @@ describe('getBbox()', function() {
       type: 'Feature',
       geometry: {
         type: 'Polygon',
-        coordinates: [
-          [[-180, -90], [0, -90], [0, 10], [-180, 10], [-180, -90]]
-        ]
+        coordinates: [[[-180, -90], [0, -90], [0, 10], [-180, 10], [-180, -90]]]
       }
     });
     expect(bbox).to.eql([-180, -90, 0, 10]);
@@ -312,7 +318,8 @@ describe('getBbox()', function() {
               [[-180, -90], [0, -90], [0, 10], [-180, 10], [-180, -90]]
             ]
           }
-        }, {
+        },
+        {
           type: 'Feature',
           geometry: {
             type: 'Point',
@@ -323,5 +330,4 @@ describe('getBbox()', function() {
     });
     expect(bbox).to.eql([-180, -90, 10, 23]);
   });
-
 });
