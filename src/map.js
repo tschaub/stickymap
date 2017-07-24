@@ -93,6 +93,7 @@ function StickyMap(config) {
         bbox: bbox,
         layerBbox: layerBbox ? merc.forward(layerBbox) : bbox,
         urls: urls,
+        maxZoom: layerConfig.maxZoom,
         onTileLoad: function(error) {
           if (!error) {
             render();
