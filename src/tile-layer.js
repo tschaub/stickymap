@@ -73,6 +73,9 @@ TileLayer.prototype.render = function() {
     return;
   }
   var z = xyz.getZ(this.resolution);
+  if (this.maxZoom && z > this.maxZoom) {
+    z = this.maxZoom;
+  }
   var tileResolution = xyz.getResolution(z);
   var scale = tileResolution / this.resolution;
   this.context.save();
