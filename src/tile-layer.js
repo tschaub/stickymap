@@ -58,7 +58,10 @@ TileLayer.prototype.handleTileLoad = function(error, tile) {
   if (this.loading <= 0 && this.onLoad) {
     var loadError;
     if (this.errors.length > 0) {
-      loadError = new TileLayerLoadError('Layer failed to load completely', this);
+      loadError = new TileLayerLoadError(
+        'Layer failed to load completely',
+        this
+      );
     }
     this.onLoad(loadError);
   }

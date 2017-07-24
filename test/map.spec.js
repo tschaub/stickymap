@@ -3,7 +3,6 @@ var expect = require('chai').expect;
 var errors = require('../src/errors');
 
 describe('constructor', function() {
-
   it('creates a new sticky map', function() {
     var map = new StickyMap({
       fit: [-180, -90, 180, 90],
@@ -50,18 +49,18 @@ describe('constructor', function() {
 
     expect(call).to.throw(Error, /must be given a width or height/);
   });
-
 });
 
 describe('onLoad', function() {
-
   it('is called after all layers load', function(done) {
     var map = new StickyMap({
       fit: [-180, -90, 180, 90],
       width: 200,
-      layers: [{
-        url: 'base/fixtures/layers/osm/{z}/{x}/{y}.png'
-      }],
+      layers: [
+        {
+          url: 'base/fixtures/layers/osm/{z}/{x}/{y}.png'
+        }
+      ],
       onLoad: function(error) {
         expect(error).to.be.an('undefined');
         done();
@@ -71,20 +70,26 @@ describe('onLoad', function() {
     map.load();
   });
 
-  it('is called with a MapLoadError if any layers fail to load', function(done) {
+  it('is called with a MapLoadError if any layers fail to load', function(
+    done
+  ) {
     var map = new StickyMap({
       fit: [-180, -90, 180, 90],
       width: 200,
-      layers: [{
-        id: 'bad tile layer',
-        url: 'bad:tile'
-      }, {
-        url: 'base/fixtures/layers/osm/{z}/{x}/{y}.png'
-      }, {
-        untiled: true,
-        id: 'bad image layer',
-        url: 'bad:image'
-      }],
+      layers: [
+        {
+          id: 'bad tile layer',
+          url: 'bad:tile'
+        },
+        {
+          url: 'base/fixtures/layers/osm/{z}/{x}/{y}.png'
+        },
+        {
+          untiled: true,
+          id: 'bad image layer',
+          url: 'bad:image'
+        }
+      ],
       onLoad: function(error) {
         expect(error).to.be.an.instanceOf(errors.MapLoadError);
         expect(error.errors).to.have.lengthOf(2);
@@ -112,10 +117,12 @@ describe('onLoad', function() {
     var map = new StickyMap({
       fit: [-180, -90, 180, 90],
       width: 1024, // this will request zoom level 2, which are absent
-      layers: [{
-        id: 'bad tile layer',
-        url: 'base/fixtures/layers/osm/{z}/{x}/{y}.png'
-      }],
+      layers: [
+        {
+          id: 'bad tile layer',
+          url: 'base/fixtures/layers/osm/{z}/{x}/{y}.png'
+        }
+      ],
       onLoad: function(error) {
         expect(error).to.be.an.instanceOf(errors.MapLoadError);
         expect(error.errors).to.have.lengthOf(1);
@@ -130,7 +137,6 @@ describe('onLoad', function() {
 
     map.load();
   });
-
 });
 
 describe('maxZoom', function() {
@@ -138,10 +144,12 @@ describe('maxZoom', function() {
     var map = new StickyMap({
       fit: [-180, -90, 180, 90],
       width: 1024, // this will request zoom level 2, which are absent
-      layers: [{
-        maxZoom: 1, // this will make it so only level 0 and 1 are requested
-        url: 'base/fixtures/layers/osm/{z}/{x}/{y}.png'
-      }],
+      layers: [
+        {
+          maxZoom: 1, // this will make it so only level 0 and 1 are requested
+          url: 'base/fixtures/layers/osm/{z}/{x}/{y}.png'
+        }
+      ],
       onLoad: function(error) {
         expect(error).to.be.an('undefined');
         done();
@@ -153,9 +161,7 @@ describe('maxZoom', function() {
 });
 
 describe('#canvas', function() {
-
   describe('#width', function() {
-
     it('is the pixel width of the map', function() {
       var map = new StickyMap({
         fit: [-180, -90, 180, 90],
@@ -176,11 +182,9 @@ describe('#canvas', function() {
 
       expect(map.canvas.width).to.eql(100);
     });
-
   });
 
   describe('#height', function() {
-
     it('is the pixel height of the map', function() {
       var map = new StickyMap({
         fit: [-180, -90, 180, 90],
@@ -201,7 +205,5 @@ describe('#canvas', function() {
 
       expect(map.canvas.height).to.eql(200);
     });
-
   });
-
 });

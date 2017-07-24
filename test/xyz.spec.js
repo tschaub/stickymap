@@ -30,55 +30,85 @@ describe('getResolution()', function() {
 });
 
 describe('getRange()', function() {
-
   it('returns a tile range given a bbox and z', function() {
-
     // whole world
     expect(xyz.getRange(merc.forward([-180, -90, 180, 90]), 0)).to.eql({
-      minX: 0, minY: 0, maxX: 0, maxY: 0
+      minX: 0,
+      minY: 0,
+      maxX: 0,
+      maxY: 0
     });
 
     expect(xyz.getRange(merc.forward([-180, -90, 180, 90]), 1)).to.eql({
-      minX: 0, minY: 0, maxX: 1, maxY: 1
+      minX: 0,
+      minY: 0,
+      maxX: 1,
+      maxY: 1
     });
 
     expect(xyz.getRange(merc.forward([-180, -90, 180, 90]), 2)).to.eql({
-      minX: 0, minY: 0, maxX: 3, maxY: 3
+      minX: 0,
+      minY: 0,
+      maxX: 3,
+      maxY: 3
     });
 
     // northwest
     expect(xyz.getRange(merc.forward([-180, 0, 0, 90]), 0)).to.eql({
-      minX: 0, minY: 0, maxX: 0, maxY: 0
+      minX: 0,
+      minY: 0,
+      maxX: 0,
+      maxY: 0
     });
 
     expect(xyz.getRange(merc.forward([-180, 0, 0, 90]), 1)).to.eql({
-      minX: 0, minY: 0, maxX: 0, maxY: 0
+      minX: 0,
+      minY: 0,
+      maxX: 0,
+      maxY: 0
     });
 
     expect(xyz.getRange(merc.forward([-180, 0, 0, 90]), 2)).to.eql({
-      minX: 0, minY: 0, maxX: 1, maxY: 1
+      minX: 0,
+      minY: 0,
+      maxX: 1,
+      maxY: 1
     });
 
     expect(xyz.getRange(merc.forward([-180, 0, 0, 90]), 3)).to.eql({
-      minX: 0, minY: 0, maxX: 3, maxY: 3
+      minX: 0,
+      minY: 0,
+      maxX: 3,
+      maxY: 3
     });
 
     // southeast
     expect(xyz.getRange(merc.forward([0, -90, 180, 0]), 0)).to.eql({
-      minX: 0, minY: 0, maxX: 0, maxY: 0
+      minX: 0,
+      minY: 0,
+      maxX: 0,
+      maxY: 0
     });
 
     expect(xyz.getRange(merc.forward([0, -90, 180, 0]), 1)).to.eql({
-      minX: 1, minY: 1, maxX: 1, maxY: 1
+      minX: 1,
+      minY: 1,
+      maxX: 1,
+      maxY: 1
     });
 
     expect(xyz.getRange(merc.forward([0, -90, 180, 0]), 2)).to.eql({
-      minX: 2, minY: 2, maxX: 3, maxY: 3
+      minX: 2,
+      minY: 2,
+      maxX: 3,
+      maxY: 3
     });
 
     expect(xyz.getRange(merc.forward([0, -90, 180, 0]), 3)).to.eql({
-      minX: 4, minY: 4, maxX: 7, maxY: 7
+      minX: 4,
+      minY: 4,
+      maxX: 7,
+      maxY: 7
     });
-
   });
 });

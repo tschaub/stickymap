@@ -7,9 +7,9 @@ exports.getZ = function(resolution) {
   return Math.max(0, Math.ceil(Math.log(R0 / resolution) / Math.LN2));
 };
 
-var getResolution = exports.getResolution = function(z) {
+var getResolution = (exports.getResolution = function(z) {
   return R0 / Math.pow(2, z);
-};
+});
 
 exports.getRange = function(bbox, z) {
   var resolution = getResolution(z);

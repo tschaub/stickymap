@@ -42,7 +42,9 @@ exports.expandUrl = function(url) {
     var start = match[1].charCodeAt(0);
     var end = match[2].charCodeAt(0);
     if (!(end > start)) {
-      throw new Error('Invalid range in URL template: ' + match[1] + '-' + match[2]);
+      throw new Error(
+        'Invalid range in URL template: ' + match[1] + '-' + match[2]
+      );
     }
     urls = [];
     for (var i = start; i <= end; ++i) {

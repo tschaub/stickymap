@@ -6,12 +6,9 @@ exports.height = function(bbox) {
   return bbox[3] - bbox[1];
 };
 
-var getCenter = exports.center = function(bbox) {
-  return [
-    (bbox[0] + bbox[2]) / 2,
-    (bbox[1] + bbox[3]) / 2
-  ];
-};
+var getCenter = (exports.center = function(bbox) {
+  return [(bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2];
+});
 
 exports.resize = function(bbox, width, height) {
   var halfWidth = width / 2;

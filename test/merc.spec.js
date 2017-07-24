@@ -37,7 +37,10 @@ describe('forward', function() {
   it('works for bboxes', function() {
     expectBbox(merc.forward([0, 0, 0, 0]), [0, 0, 0, 0]);
     expectBbox(merc.forward([-180, 0, 180, 0]), [-merc.EDGE, 0, merc.EDGE, 0]);
-    expectBbox(merc.forward(ALT_GEO.concat(ALT_GEO)), ALT_MERC.concat(ALT_MERC));
+    expectBbox(
+      merc.forward(ALT_GEO.concat(ALT_GEO)),
+      ALT_MERC.concat(ALT_MERC)
+    );
   });
 
   it('does not modify the original', function() {
@@ -64,7 +67,10 @@ describe('inverse', function() {
   it('works for bboxes', function() {
     expectBbox(merc.inverse([0, 0, 0, 0]), [0, 0, 0, 0]);
     expectBbox(merc.inverse([-merc.EDGE, 0, merc.EDGE, 0]), [-180, 0, 180, 0]);
-    expectBbox(merc.inverse(ALT_MERC.concat(ALT_MERC)), ALT_GEO.concat(ALT_GEO));
+    expectBbox(
+      merc.inverse(ALT_MERC.concat(ALT_MERC)),
+      ALT_GEO.concat(ALT_GEO)
+    );
   });
 
   it('does not modify the original', function() {

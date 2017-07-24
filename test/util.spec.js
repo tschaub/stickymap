@@ -87,25 +87,27 @@ describe('resolveDimensions', function() {
 });
 
 describe('expandUrl()', function() {
-
-  var cases = [{
-    url: 'https://www{0-4}.example.com',
-    urls: [
-      'https://www0.example.com',
-      'https://www1.example.com',
-      'https://www2.example.com',
-      'https://www3.example.com',
-      'https://www4.example.com'
-    ]
-  }, {
-    url: 'https://tiles-{a-d}.example.com/{z}/{x}/{y}.png',
-    urls: [
-      'https://tiles-a.example.com/{z}/{x}/{y}.png',
-      'https://tiles-b.example.com/{z}/{x}/{y}.png',
-      'https://tiles-c.example.com/{z}/{x}/{y}.png',
-      'https://tiles-d.example.com/{z}/{x}/{y}.png'
-    ]
-  }];
+  var cases = [
+    {
+      url: 'https://www{0-4}.example.com',
+      urls: [
+        'https://www0.example.com',
+        'https://www1.example.com',
+        'https://www2.example.com',
+        'https://www3.example.com',
+        'https://www4.example.com'
+      ]
+    },
+    {
+      url: 'https://tiles-{a-d}.example.com/{z}/{x}/{y}.png',
+      urls: [
+        'https://tiles-a.example.com/{z}/{x}/{y}.png',
+        'https://tiles-b.example.com/{z}/{x}/{y}.png',
+        'https://tiles-c.example.com/{z}/{x}/{y}.png',
+        'https://tiles-d.example.com/{z}/{x}/{y}.png'
+      ]
+    }
+  ];
 
   for (var i = 0, ii = cases.length; i < ii; ++i) {
     var c = cases[i];
@@ -127,5 +129,4 @@ describe('expandUrl()', function() {
     };
     expect(call).throws('Invalid range in URL template: z-a');
   });
-
 });

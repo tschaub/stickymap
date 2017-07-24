@@ -1,6 +1,6 @@
 var merc = require('./merc');
 
-var transform = exports.transform = function(obj) {
+var transform = (exports.transform = function(obj) {
   var transformed;
   switch (obj.type) {
     case 'Point':
@@ -37,7 +37,7 @@ var transform = exports.transform = function(obj) {
       throw new Error('GeoJSON type ' + obj.type + ' not supported');
   }
   return transformed;
-};
+});
 
 function transformCoordinates(input) {
   var output;
@@ -58,7 +58,7 @@ function transformCoordinates(input) {
   return output;
 }
 
-var getBbox = exports.getBbox = function(obj, bbox) {
+var getBbox = (exports.getBbox = function(obj, bbox) {
   bbox = bbox || [Infinity, Infinity, -Infinity, -Infinity];
   switch (obj.type) {
     case 'Point':
@@ -86,7 +86,7 @@ var getBbox = exports.getBbox = function(obj, bbox) {
       throw new Error('GeoJSON type ' + obj.type + ' not supported');
   }
   return bbox;
-};
+});
 
 function getCoordinatesBbox(input, bbox) {
   if (!Array.isArray(input)) {

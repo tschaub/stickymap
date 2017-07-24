@@ -160,7 +160,7 @@ function setGeoClipPath(context, obj, transform) {
       });
       break;
     default:
-      // do nothing
+    // do nothing
   }
 }
 
