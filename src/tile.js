@@ -27,12 +27,12 @@ Tile.prototype.load = function(callback) {
   var image = new Image();
   var tile = this;
   var url;
-  image.onload = function() {
+  image.addEventListener('load', function() {
     callback(null, tile);
-  };
-  image.onerror = function() {
+  });
+  image.addEventListener('error', function() {
     callback(new TileLoadError('Failed to load ' + url, tile));
-  };
+  });
 
   image.width = xyz.SIZE;
   image.height = xyz.SIZE;
