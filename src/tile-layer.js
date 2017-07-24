@@ -4,13 +4,6 @@ var bbox = require('./bbox');
 var merc = require('./merc');
 var xyz = require('./xyz');
 
-function pick(urls, x, y, z) {
-  var hash = (x << z) + y;
-  var length = urls.length;
-  var index = hash % length;
-  return urls[index < 0 ? index + length : index];
-}
-
 function TileLayer(config) {
   this.id = config.id;
   this.bbox = config.bbox;
@@ -27,7 +20,7 @@ function TileLayer(config) {
 
 TileLayer.prototype.load = function() {
   var z = xyz.getZ(this.resolution);
-  if (this.maxZoom && z > this.maxZoom) {
+  if (!isNaN(this.maxZoom) && z > this.maxZoom) {
     z = this.maxZoom;
   }
   var range = xyz.getRange(bbox.intersect(this.bbox, this.layerBbox), z);
@@ -35,10 +28,8 @@ TileLayer.prototype.load = function() {
   var handleTileLoad = this.handleTileLoad.bind(this);
   for (var x = range.minX; x <= range.maxX; ++x) {
     for (var y = range.minY; y <= range.maxY; ++y) {
-      var url = pick(this.urls, x, y, z);
-      url = url.replace('{x}', x).replace('{y}', y).replace('{z}', z);
       ++this.loading;
-      var tile = new Tile(url, x, y, z);
+      var tile = new Tile(this.urls, x, y, z);
       tile.load(handleTileLoad);
     }
   }
@@ -73,7 +64,7 @@ TileLayer.prototype.render = function() {
     return;
   }
   var z = xyz.getZ(this.resolution);
-  if (this.maxZoom && z > this.maxZoom) {
+  if (!isNaN(this.maxZoom) && z > this.maxZoom) {
     z = this.maxZoom;
   }
   var tileResolution = xyz.getResolution(z);

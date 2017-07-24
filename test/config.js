@@ -15,6 +15,9 @@ module.exports = function(config) {
     },
     browserify: {
       debug: true
+    },
+    client: {
+      runInParent: true
     }
   });
 };
