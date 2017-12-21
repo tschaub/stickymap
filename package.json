@@ -15,7 +15,7 @@
     "chai": "^4.1.0",
     "eslint": "^4.3.0",
     "eslint-config-tschaub": "^8.0.0",
-    "karma": "^1.7.0",
+    "karma": "^2.0.0",
     "karma-browserify": "^5.1.1",
     "karma-chrome-launcher": "^2.2.0",
     "karma-firefox-launcher": "^1.0.1",
