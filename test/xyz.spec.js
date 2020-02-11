@@ -1,6 +1,6 @@
-var expect = require('chai').expect;
-var merc = require('../src/merc');
-var xyz = require('../src/xyz');
+const expect = require('chai').expect;
+const merc = require('../src/merc');
+const xyz = require('../src/xyz');
 
 describe('getZ()', function() {
   it('returns a zoom level given a resolution', function() {

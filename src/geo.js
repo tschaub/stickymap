@@ -1,7 +1,7 @@
-var merc = require('./merc');
+const merc = require('./merc');
 
-var transform = (exports.transform = function(obj) {
-  var transformed;
+function transform(obj) {
+  let transformed;
   switch (obj.type) {
     case 'Point':
     case 'LineString':
@@ -37,10 +37,12 @@ var transform = (exports.transform = function(obj) {
       throw new Error('GeoJSON type ' + obj.type + ' not supported');
   }
   return transformed;
-});
+}
+
+exports.transform = transform;
 
 function transformCoordinates(input) {
-  var output;
+  let output;
   if (!Array.isArray(input)) {
     throw new Error('Invalid coordinates');
   }
@@ -51,14 +53,14 @@ function transformCoordinates(input) {
     output = merc.forward(input);
   } else {
     output = input.slice();
-    for (var i = 0, ii = input.length; i < ii; ++i) {
+    for (let i = 0, ii = input.length; i < ii; ++i) {
       output[i] = transformCoordinates(input[i]);
     }
   }
   return output;
 }
 
-var getBbox = (exports.getBbox = function(obj, bbox) {
+function getBbox(obj, bbox) {
   bbox = bbox || [Infinity, Infinity, -Infinity, -Infinity];
   switch (obj.type) {
     case 'Point':
@@ -86,7 +88,9 @@ var getBbox = (exports.getBbox = function(obj, bbox) {
       throw new Error('GeoJSON type ' + obj.type + ' not supported');
   }
   return bbox;
-});
+}
+
+exports.getBbox = getBbox;
 
 function getCoordinatesBbox(input, bbox) {
   if (!Array.isArray(input)) {
@@ -101,7 +105,7 @@ function getCoordinatesBbox(input, bbox) {
     bbox[2] = Math.max(bbox[2], input[0]);
     bbox[3] = Math.max(bbox[3], input[1]);
   } else {
-    for (var i = 0, ii = input.length; i < ii; ++i) {
+    for (let i = 0, ii = input.length; i < ii; ++i) {
       getCoordinatesBbox(input[i], bbox);
     }
   }

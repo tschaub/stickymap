@@ -5,12 +5,12 @@ function Untile(url, bbox, options) {
 }
 
 Untile.prototype.load = function(callback) {
-  var image = new Image();
+  const image = new Image();
   image.crossOrigin = this.options.crossOrigin || 'anonymous';
   this.image = image;
 
-  var url = this.url;
-  var untile = this;
+  const url = this.url;
+  const untile = this;
   image.addEventListener('load', function() {
     callback(null, untile);
   });

@@ -1,5 +1,5 @@
-var bbox = require('../src/bbox');
-var expect = require('chai').expect;
+const bbox = require('../src/bbox');
+const expect = require('chai').expect;
 
 describe('width', function() {
   it('returns the width of a bbox', function() {
@@ -28,8 +28,8 @@ describe('resize', function() {
   });
 
   it('does not modify the old bbox', function() {
-    var old = [-10, 5, 0, 15];
-    var resized = bbox.resize(old, 20, 20);
+    const old = [-10, 5, 0, 15];
+    const resized = bbox.resize(old, 20, 20);
     expect(resized).to.eql([-15, 0, 5, 20]);
     expect(old).to.eql([-10, 5, 0, 15]);
   });
@@ -37,18 +37,18 @@ describe('resize', function() {
 
 describe('intersect', function() {
   it('retruns the intersection of two boxes', function() {
-    var world = [-180, -90, 180, 90];
-    var northwest = [-200, 0, 0, 190];
-    var intersection = bbox.intersect(world, northwest);
+    const world = [-180, -90, 180, 90];
+    const northwest = [-200, 0, 0, 190];
+    const intersection = bbox.intersect(world, northwest);
     expect(intersection).to.eql([-180, 0, 0, 90]);
   });
 });
 
 describe('isEmpty', function() {
   it('tests for empty bbox', function() {
-    var east = [0, -90, 180, 90];
-    var west = [-180, 0, 0, 90];
-    var intersection = bbox.intersect(east, west);
+    const east = [0, -90, 180, 90];
+    const west = [-180, 0, 0, 90];
+    const intersection = bbox.intersect(east, west);
     expect(bbox.isEmpty(intersection)).to.eql(true);
   });
 });

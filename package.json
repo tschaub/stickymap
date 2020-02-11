@@ -10,11 +10,22 @@
     "rebuild": "nodemon --ext js,html --watch src --watch doc --exec make build",
     "start": "npm run rebuild & npm run serve"
   },
+  "files": [
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tschaub/stickymap.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tschaub/stickymap/issues"
+  },
+  "license": "MIT",
   "devDependencies": {
     "browser-sync": "^2.18.13",
     "chai": "^4.1.2",
-    "eslint": "^4.18.2",
-    "eslint-config-tschaub": "^9.0.0",
+    "eslint": "^6.8.0",
+    "eslint-config-tschaub": "^13.1.0",
     "karma": "^2.0.0",
     "karma-browserify": "^5.1.1",
     "karma-chrome-launcher": "^2.2.0",

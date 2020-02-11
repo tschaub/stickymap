@@ -1,7 +1,7 @@
-var StickyMap = require('./map');
+const StickyMap = require('./map');
 
 module.exports = function(config) {
-  var map = new StickyMap(config);
+  const map = new StickyMap(config);
   map.load();
   return map.canvas;
 };

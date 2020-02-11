@@ -1,12 +1,12 @@
-var pixelmatch = require('pixelmatch');
-var stickymap = require('../src');
+const pixelmatch = require('pixelmatch');
+const stickymap = require('../src');
 
 function expectPixelMatch(mapConfig, expectedPath, matchOptions) {
   matchOptions = matchOptions || {threshold: 0.1};
-  var render = location.search.indexOf('render') >= 0;
+  const render = location.search.indexOf('render') >= 0;
 
   return new Promise(function(resolve, reject) {
-    var map;
+    let map = null;
 
     function fail(message) {
       if (render && map) {
@@ -17,7 +17,7 @@ function expectPixelMatch(mapConfig, expectedPath, matchOptions) {
       reject(new Error(message));
     }
 
-    var img = new Image();
+    const img = new Image();
     img.onerror = function() {
       fail('Failed to load ' + expectedPath);
     };
@@ -31,16 +31,16 @@ function expectPixelMatch(mapConfig, expectedPath, matchOptions) {
         fail('Unexpected height ' + img.height + ', expected ' + map.height);
         return;
       }
-      var width = img.width;
-      var height = img.height;
-      var canvas = document.createElement('canvas');
+      const width = img.width;
+      const height = img.height;
+      const canvas = document.createElement('canvas');
       canvas.width = width;
       canvas.height = height;
-      var context = canvas.getContext('2d');
+      const context = canvas.getContext('2d');
       context.drawImage(img, 0, 0);
-      var expected = context.getImageData(0, 0, width, height);
-      var got = map.getContext('2d').getImageData(0, 0, width, height);
-      var mismatched = pixelmatch(expected, got, width, height, matchOptions);
+      const expected = context.getImageData(0, 0, width, height);
+      const got = map.getContext('2d').getImageData(0, 0, width, height);
+      const mismatched = pixelmatch(expected, got, width, height, matchOptions);
       if (mismatched > 0) {
         fail('Got mismatched pixels: ' + mismatched);
       } else {
@@ -61,7 +61,7 @@ function expectPixelMatch(mapConfig, expectedPath, matchOptions) {
 
 describe('map rendering', function() {
   it('fits the world in a 200px square', function() {
-    var config = {
+    const config = {
       width: 200,
       fit: [-180, -90, 180, 90],
       layers: [{url: 'base/fixtures/layers/osm/{z}/{x}/{y}.png'}]
@@ -70,7 +70,7 @@ describe('map rendering', function() {
   });
 
   it('wraps in x when more than one world wide', function() {
-    var config = {
+    const config = {
       width: 200,
       height: 150,
       fit: [-180, -90, 180, 90],
@@ -80,7 +80,7 @@ describe('map rendering', function() {
   });
 
   it('shows blank in y when more than one world tall', function() {
-    var config = {
+    const config = {
       width: 150,
       height: 200,
       fit: [-180, -90, 180, 90],
@@ -90,7 +90,7 @@ describe('map rendering', function() {
   });
 
   it('oversamples when maxZoom is set', function() {
-    var config = {
+    const config = {
       width: 200,
       fit: [-180, 0, 0, 90],
       layers: [
