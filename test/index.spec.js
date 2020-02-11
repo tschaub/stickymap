@@ -1,5 +1,6 @@
 const pixelmatch = require('pixelmatch');
 const stickymap = require('../src');
+const montana = require('./fixtures/vector/montana.json');
 
 function expectPixelMatch(mapConfig, expectedPath, matchOptions) {
   matchOptions = matchOptions || {threshold: 0.1};
@@ -38,9 +39,16 @@ function expectPixelMatch(mapConfig, expectedPath, matchOptions) {
       canvas.height = height;
       const context = canvas.getContext('2d');
       context.drawImage(img, 0, 0);
-      const expected = context.getImageData(0, 0, width, height);
-      const got = map.getContext('2d').getImageData(0, 0, width, height);
-      const mismatched = pixelmatch(expected, got, width, height, matchOptions);
+      const expected = context.getImageData(0, 0, width, height).data;
+      const got = map.getContext('2d').getImageData(0, 0, width, height).data;
+      const mismatched = pixelmatch(
+        expected,
+        got,
+        null,
+        width,
+        height,
+        matchOptions
+      );
       if (mismatched > 0) {
         fail('Got mismatched pixels: ' + mismatched);
       } else {
@@ -101,5 +109,86 @@ describe('map rendering', function() {
       ]
     };
     return expectPixelMatch(config, 'base/fixtures/expected/osm-max-zoom.png');
+  });
+
+  it('renders vector data', function() {
+    const config = {
+      width: 200,
+      fit: [-140, 30, -85, 60],
+      layers: [
+        {
+          url: 'base/fixtures/layers/osm/{z}/{x}/{y}.png',
+          maxZoom: 1
+        },
+        {
+          vector: montana
+        }
+      ]
+    };
+    return expectPixelMatch(config, 'base/fixtures/expected/vector.png');
+  });
+
+  it('supports vector stroke', function() {
+    const config = {
+      width: 200,
+      fit: [-140, 30, -85, 60],
+      layers: [
+        {
+          url: 'base/fixtures/layers/osm/{z}/{x}/{y}.png',
+          maxZoom: 1
+        },
+        {
+          vector: montana,
+          style: {
+            lineWidth: 2,
+            strokeStyle: 'blue'
+          }
+        }
+      ]
+    };
+    return expectPixelMatch(config, 'base/fixtures/expected/vector-stroke.png');
+  });
+
+  it('supports vector fill', function() {
+    const config = {
+      width: 200,
+      fit: [-140, 30, -85, 60],
+      layers: [
+        {
+          url: 'base/fixtures/layers/osm/{z}/{x}/{y}.png',
+          maxZoom: 1
+        },
+        {
+          vector: montana,
+          style: {
+            fillStyle: 'blue'
+          }
+        }
+      ]
+    };
+    return expectPixelMatch(config, 'base/fixtures/expected/vector-fill.png');
+  });
+
+  it('supports vector fill and stroke together', function() {
+    const config = {
+      width: 200,
+      fit: [-140, 30, -85, 60],
+      layers: [
+        {
+          url: 'base/fixtures/layers/osm/{z}/{x}/{y}.png',
+          maxZoom: 1
+        },
+        {
+          vector: montana,
+          style: {
+            strokeStyle: 'blue',
+            lineWidth: 1.5,
+            lineJoin: 'round',
+            fillStyle: 'orange'
+          }
+        }
+      ]
+    };
+    return expectPixelMatch(config, 'base/fixtures/expected/vector-combo.png');
   });
 });
