@@ -5,7 +5,7 @@ Sticky maps are maps that are not slippy maps.  Meaning, if you want to use tile
 For example, if you wanted to embed a map of the state of Montana in a web page using imagery from Mapbox, you could do this:
 
 ```js
-var map = stickymap({
+const map = stickymap({
   width: 500,
   clip: geoJson, // <- GeoJSON representing the state of Montana
   layers: [{
@@ -43,7 +43,7 @@ Optional callback that will be called when the map finishes rendering.  The call
 
 ### `layers`
 
-An array of layer configurations.  Layers are rendered from tiled imagery or from a single image.
+An array of layer configurations.  Layers are rendered from tiled imagery, from a single image, or from vector data (GeoJSON).
 
 #### Tiled layer properties
 
@@ -54,6 +54,18 @@ Tiled layers can have an optional `maxZoom` property to configure the maximum zo
 #### Image layer properties
 
 Layers can be rendered from a single image by setting `untiled: true`.  Image layers must have a `bbox` property that describes the bounding box (`[minLon, minLat, maxLon, maxLat]`) of the image.  In addition, untiled layers must have a `url` property with the URL of the image to be rendered.
+
+#### Vector layer properties
+
+Vector layers must have a `vector` property whose value is any GeoJSON object.  Vector layers can have an optional `style` property to configure how the vector data is rendered.  Any canvas 2D context styling properties are supported.  For example, the config below would render the data with an aqua stroke and a partially transparent azure fill:
+
+```js
+style: {
+  lineWidth: 1.5,
+  strokeStyle: 'aqua',
+  fillStyle: 'rgba(240, 255, 255, 0.5)'
+}
+```
 
 
 [![Build Status](https://travis-ci.org/tschaub/stickymap.svg?branch=master)](https://travis-ci.org/tschaub/stickymap)

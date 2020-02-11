@@ -7,7 +7,6 @@
   </head>
   <body>
     <script>
-
       var url = 'https://raw.githubusercontent.com/johan/world.geo.json/master/countries/USA/MT.geo.json';
 
       function getJson(response) {
@@ -16,10 +15,17 @@
 
       function createMap(geoJson) {
         var map = stickymap({
-          clip: geoJson,
+          fit: [-140, 30, -85, 60],
           width: 500,
           layers: [{
-            url: 'https://{a-d}.tiles.mapbox.com/v3/mapbox.blue-marble-topo-jul/{z}/{x}/{y}.png'
+            url: 'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key=R8rAisQ0L6EL1wW8JVYQ'
+          }, {
+            vector: geoJson,
+            style: {
+              strokeStyle: 'aqua',
+              lineWidth: 1.5,
+              fillStyle: 'rgba(200, 255, 255, 0.5)'
+            }
           }]
         });
 
