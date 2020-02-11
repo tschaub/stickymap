@@ -1,12 +1,12 @@
-var MapLoadError = require('./errors').MapLoadError;
-var TileLayer = require('./tile-layer');
-var ImageLayer = require('./image-layer');
-var geo = require('./geo');
-var merc = require('./merc');
-var util = require('./util');
+const MapLoadError = require('./errors').MapLoadError;
+const TileLayer = require('./tile-layer');
+const ImageLayer = require('./image-layer');
+const geo = require('./geo');
+const merc = require('./merc');
+const util = require('./util');
 
 function StickyMap(config) {
-  var bbox;
+  let bbox;
   if (config.fit) {
     if (Array.isArray(config.fit)) {
       bbox = config.fit;
@@ -21,20 +21,20 @@ function StickyMap(config) {
     }
   }
 
-  var dimensions = util.resolveDimensions({
+  const dimensions = util.resolveDimensions({
     bbox: merc.forward(bbox),
     width: config.width,
     height: config.height
   });
 
-  var canvas = document.createElement('canvas');
+  const canvas = document.createElement('canvas');
   canvas.width = dimensions.width;
   canvas.height = dimensions.height;
 
-  var context = canvas.getContext('2d');
+  const context = canvas.getContext('2d');
 
   if (config.clip) {
-    var transform = [
+    const transform = [
       1 / dimensions.resolution,
       0,
       0,
@@ -45,11 +45,11 @@ function StickyMap(config) {
     setClipPath(context, geo.transform(config.clip), transform);
   }
 
-  var render = this._render.bind(this);
+  const render = this._render.bind(this);
 
-  var errors = [];
-  var loaded = 0;
-  var layers = config.layers.map(function(layerConfig) {
+  const errors = [];
+  let loaded = 0;
+  const layers = config.layers.map(function(layerConfig) {
     if (layerConfig.untiled) {
       return new ImageLayer({
         id: layerConfig.id,
@@ -66,7 +66,7 @@ function StickyMap(config) {
             errors.push(error);
           }
           if (loaded === layers.length && config.onLoad) {
-            var loadError;
+            let loadError;
             if (errors.length > 0) {
               loadError = new MapLoadError('Map failed to load', errors);
             }
@@ -75,14 +75,14 @@ function StickyMap(config) {
         }
       });
     } else {
-      var bbox = dimensions.bbox;
-      var layerBbox = layerConfig.bbox;
+      const bbox = dimensions.bbox;
+      let layerBbox = layerConfig.bbox;
       if (layerBbox) {
         if (!Array.isArray(layerBbox)) {
           layerBbox = geo.getBbox(layerBbox);
         }
       }
-      var urls = layerConfig.urls;
+      let urls = layerConfig.urls;
       if (!urls) {
         urls = util.expandUrl(layerConfig.url);
       }
@@ -105,7 +105,7 @@ function StickyMap(config) {
             errors.push(error);
           }
           if (loaded === layers.length && config.onLoad) {
-            var loadError;
+            let loadError;
             if (errors.length > 0) {
               loadError = new MapLoadError('Map failed to load', errors);
             }
@@ -165,10 +165,10 @@ function setGeoClipPath(context, obj, transform) {
 }
 
 function setPolygonPath(context, coordinates, transform) {
-  for (var i = 0, ii = coordinates.length; i < ii; ++i) {
-    var ring = coordinates[i];
-    for (var j = 0, jj = ring.length; j < jj; ++j) {
-      var coord = ring[j];
+  for (let i = 0, ii = coordinates.length; i < ii; ++i) {
+    const ring = coordinates[i];
+    for (let j = 0, jj = ring.length; j < jj; ++j) {
+      const coord = ring[j];
       if (j === 0) {
         context.moveTo.apply(context, applyTransform(transform, coord));
       } else {
@@ -179,14 +179,14 @@ function setPolygonPath(context, coordinates, transform) {
 }
 
 function setMultiPolygonPath(context, coordinates, transform) {
-  for (var i = 0, ii = coordinates.length; i < ii; ++i) {
+  for (let i = 0, ii = coordinates.length; i < ii; ++i) {
     setPolygonPath(context, coordinates[i], transform);
   }
 }
 
 function applyTransform(transform, coordinate) {
-  var x = coordinate[0];
-  var y = coordinate[1];
+  const x = coordinate[0];
+  const y = coordinate[1];
   return [
     transform[0] * x + transform[2] * y + transform[4],
     transform[1] * x + transform[3] * y + transform[5]

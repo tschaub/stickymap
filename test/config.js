@@ -1,4 +1,4 @@
-var browsers;
+let browsers;
 if (process.env.TRAVIS) {
   browsers = ['Firefox'];
 } else {

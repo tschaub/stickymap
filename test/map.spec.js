@@ -1,10 +1,10 @@
-var StickyMap = require('../src/map');
-var expect = require('chai').expect;
-var errors = require('../src/errors');
+const StickyMap = require('../src/map');
+const expect = require('chai').expect;
+const errors = require('../src/errors');
 
 describe('constructor', function() {
   it('creates a new sticky map', function() {
-    var map = new StickyMap({
+    const map = new StickyMap({
       fit: [-180, -90, 180, 90],
       width: 100,
       height: 100,
@@ -15,7 +15,7 @@ describe('constructor', function() {
   });
 
   it('throws if bbox is missing', function() {
-    var call = function() {
+    const call = function() {
       return new StickyMap({
         width: 100,
         height: 100,
@@ -27,7 +27,7 @@ describe('constructor', function() {
   });
 
   it('throws if bbox is empty', function() {
-    var call = function() {
+    const call = function() {
       return new StickyMap({
         fit: [10, -10, 10, -10],
         width: 100,
@@ -40,7 +40,7 @@ describe('constructor', function() {
   });
 
   it('throws if width and height are missing', function() {
-    var call = function() {
+    const call = function() {
       return new StickyMap({
         fit: [-180, -90, 180, 90],
         layers: []
@@ -53,7 +53,7 @@ describe('constructor', function() {
 
 describe('onLoad', function() {
   it('is called after all layers load', function(done) {
-    var map = new StickyMap({
+    const map = new StickyMap({
       fit: [-180, -90, 180, 90],
       width: 200,
       layers: [
@@ -70,10 +70,8 @@ describe('onLoad', function() {
     map.load();
   });
 
-  it('is called with a MapLoadError if any layers fail to load', function(
-    done
-  ) {
-    var map = new StickyMap({
+  it('is called with a MapLoadError if any layers fail to load', function(done) {
+    const map = new StickyMap({
       fit: [-180, -90, 180, 90],
       width: 200,
       layers: [
@@ -94,7 +92,7 @@ describe('onLoad', function() {
         expect(error).to.be.an.instanceOf(errors.MapLoadError);
         expect(error.errors).to.have.lengthOf(2);
 
-        var loadErrors = error.errors.slice().sort(function(a, b) {
+        const loadErrors = error.errors.slice().sort(function(a, b) {
           return a.layer.id < b.layer.id ? -1 : 1;
         });
 
@@ -114,7 +112,7 @@ describe('onLoad', function() {
   });
 
   it('is called with a MapLoadError for tiles that 404', function(done) {
-    var map = new StickyMap({
+    const map = new StickyMap({
       fit: [-180, -90, 180, 90],
       width: 1024, // this will request zoom level 2, which are absent
       layers: [
@@ -141,7 +139,7 @@ describe('onLoad', function() {
 
 describe('maxZoom', function() {
   it('allows tile layers with limited zoom levels', function(done) {
-    var map = new StickyMap({
+    const map = new StickyMap({
       fit: [-180, -90, 180, 90],
       width: 1024, // this will request zoom level 2, which are absent
       layers: [
@@ -163,7 +161,7 @@ describe('maxZoom', function() {
 describe('#canvas', function() {
   describe('#width', function() {
     it('is the pixel width of the map', function() {
-      var map = new StickyMap({
+      const map = new StickyMap({
         fit: [-180, -90, 180, 90],
         width: 150,
         height: 100,
@@ -174,7 +172,7 @@ describe('#canvas', function() {
     });
 
     it('is calculated if not provided explicitly', function() {
-      var map = new StickyMap({
+      const map = new StickyMap({
         fit: [-180, -90, 180, 90],
         height: 100,
         layers: []
@@ -186,7 +184,7 @@ describe('#canvas', function() {
 
   describe('#height', function() {
     it('is the pixel height of the map', function() {
-      var map = new StickyMap({
+      const map = new StickyMap({
         fit: [-180, -90, 180, 90],
         width: 150,
         height: 100,
@@ -197,7 +195,7 @@ describe('#canvas', function() {
     });
 
     it('is calculated if not provided explicitly', function() {
-      var map = new StickyMap({
+      const map = new StickyMap({
         fit: [-180, 0, 0, 90],
         width: 200,
         layers: []

@@ -1,18 +1,18 @@
-var TileLoadError = require('./errors').TileLoadError;
-var xyz = require('./xyz');
+const TileLoadError = require('./errors').TileLoadError;
+const xyz = require('./xyz');
 
 function pick(urls, x, y, z) {
-  var hash = (x << z) + y;
-  var length = urls.length;
-  var index = hash % length;
+  const hash = (x << z) + y;
+  const length = urls.length;
+  const index = hash % length;
   return urls[index < 0 ? index + length : index];
 }
 
-var BLANK =
+const BLANK =
   'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 
 function mod(n, m) {
-  return (n % m + m) % m;
+  return ((n % m) + m) % m;
 }
 
 function Tile(urls, x, y, z, options) {
@@ -24,9 +24,17 @@ function Tile(urls, x, y, z, options) {
 }
 
 Tile.prototype.load = function(callback) {
-  var image = new Image();
-  var tile = this;
-  var url;
+  const image = new Image();
+  const tile = this;
+
+  const max = Math.pow(2, this.z);
+  const x = mod(this.x, max);
+  const template = pick(this.urls, x, this.y, this.z);
+  const url = template
+    .replace('{x}', x)
+    .replace('{y}', this.y)
+    .replace('{z}', this.z);
+
   image.addEventListener('load', function() {
     callback(null, tile);
   });
@@ -43,18 +51,10 @@ Tile.prototype.load = function(callback) {
     return;
   }
 
-  var max = Math.pow(2, this.z);
   if (this.y < 0 || this.y >= max) {
     image.src = BLANK;
     return;
   }
-
-  var x = mod(this.x, max);
-  var template = pick(this.urls, x, this.y, this.z);
-  url = template
-    .replace('{x}', x)
-    .replace('{y}', this.y)
-    .replace('{z}', this.z);
 
   if (this.options.crossOrigin) {
     image.crossOrigin = this.options.crossOrigin;

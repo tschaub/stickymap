@@ -1,13 +1,13 @@
-var util = require('../src/util');
-var expect = require('chai').expect;
+const util = require('../src/util');
+const expect = require('chai').expect;
 
 describe('resolveDimensions', function() {
   it('resolves width and height given bbox and width', function() {
-    var bbox = [0, 0, 1000, 2000];
-    var width = 100;
-    var height = 200;
+    const bbox = [0, 0, 1000, 2000];
+    const width = 100;
+    const height = 200;
 
-    var dimensions = util.resolveDimensions({
+    const dimensions = util.resolveDimensions({
       bbox: bbox,
       width: width
     });
@@ -18,11 +18,11 @@ describe('resolveDimensions', function() {
   });
 
   it('resolves width and height given bbox and height', function() {
-    var bbox = [0, 0, 1000, 2000];
-    var width = 100;
-    var height = 200;
+    const bbox = [0, 0, 1000, 2000];
+    const width = 100;
+    const height = 200;
 
-    var dimensions = util.resolveDimensions({
+    const dimensions = util.resolveDimensions({
       bbox: bbox,
       height: height
     });
@@ -33,10 +33,10 @@ describe('resolveDimensions', function() {
   });
 
   it('resolves width and height given bbox, width, and height', function() {
-    var bbox = [0, 0, 1000, 2000];
-    var width = 100;
-    var height = 200;
-    var dimensions = util.resolveDimensions({
+    const bbox = [0, 0, 1000, 2000];
+    const width = 100;
+    const height = 200;
+    const dimensions = util.resolveDimensions({
       bbox: bbox,
       width: width,
       height: height
@@ -48,7 +48,7 @@ describe('resolveDimensions', function() {
   });
 
   it('throws if no width or height', function() {
-    var call = function() {
+    const call = function() {
       util.resolveDimensions({
         bbox: [0, 0, 1000, 2000]
       });
@@ -58,10 +58,10 @@ describe('resolveDimensions', function() {
   });
 
   it('extends bbox width if image aspect ratio is higher', function() {
-    var bbox = [0, 0, 1000, 2000];
-    var width = 200;
-    var height = 200;
-    var dimensions = util.resolveDimensions({
+    const bbox = [0, 0, 1000, 2000];
+    const width = 200;
+    const height = 200;
+    const dimensions = util.resolveDimensions({
       bbox: bbox,
       width: width,
       height: height
@@ -72,10 +72,10 @@ describe('resolveDimensions', function() {
   });
 
   it('extends bbox height if image aspect ratio is lower', function() {
-    var bbox = [0, 0, 1000, 2000];
-    var width = 50;
-    var height = 200;
-    var dimensions = util.resolveDimensions({
+    const bbox = [0, 0, 1000, 2000];
+    const width = 50;
+    const height = 200;
+    const dimensions = util.resolveDimensions({
       bbox: bbox,
       width: width,
       height: height
@@ -87,7 +87,7 @@ describe('resolveDimensions', function() {
 });
 
 describe('expandUrl()', function() {
-  var cases = [
+  const cases = [
     {
       url: 'https://www{0-4}.example.com',
       urls: [
@@ -109,22 +109,22 @@ describe('expandUrl()', function() {
     }
   ];
 
-  for (var i = 0, ii = cases.length; i < ii; ++i) {
-    var c = cases[i];
+  for (let i = 0, ii = cases.length; i < ii; ++i) {
+    const c = cases[i];
     it('works for ' + c.url, function() {
       expect(util.expandUrl(c.url)).to.eql(c.urls);
     });
   }
 
   it('throws for an invalid numeric range', function() {
-    var call = function() {
+    const call = function() {
       return util.expandUrl('https://tiles-{4-0}.example.com');
     };
     expect(call).throws('Invalid range in URL template: 4-0');
   });
 
   it('throws for an invalid character range', function() {
-    var call = function() {
+    const call = function() {
       return util.expandUrl('https://tiles-{z-a}.example.com');
     };
     expect(call).throws('Invalid range in URL template: z-a');

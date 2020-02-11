@@ -1,13 +1,13 @@
-var bbox = require('./bbox');
+const bbox = require('./bbox');
 
 exports.resolveDimensions = function(config) {
-  var minMapBbox = config.bbox;
-  var minMapWidth = bbox.width(minMapBbox);
-  var minMapHeight = bbox.height(minMapBbox);
+  const minMapBbox = config.bbox;
+  const minMapWidth = bbox.width(minMapBbox);
+  const minMapHeight = bbox.height(minMapBbox);
   if (minMapWidth <= 0 || minMapHeight <= 0) {
     throw new Error('Map must have non-empty bbox');
   }
-  var width, height, widthResolution, heightResolution, resolution;
+  let width, height, widthResolution, heightResolution, resolution;
   if (config.width) {
     width = config.width;
     widthResolution = minMapWidth / width;
@@ -34,20 +34,20 @@ exports.resolveDimensions = function(config) {
   };
 };
 
-var URL_RANGE = /{([0-9a-zA-Z])-([0-9a-zA-Z])}/;
+const URL_RANGE = /{([0-9a-zA-Z])-([0-9a-zA-Z])}/;
 exports.expandUrl = function(url) {
-  var urls;
-  var match = url.match(URL_RANGE);
+  let urls;
+  const match = url.match(URL_RANGE);
   if (match) {
-    var start = match[1].charCodeAt(0);
-    var end = match[2].charCodeAt(0);
+    const start = match[1].charCodeAt(0);
+    const end = match[2].charCodeAt(0);
     if (!(end > start)) {
       throw new Error(
         'Invalid range in URL template: ' + match[1] + '-' + match[2]
       );
     }
     urls = [];
-    for (var i = start; i <= end; ++i) {
+    for (let i = start; i <= end; ++i) {
       urls.push(url.replace(match[0], String.fromCharCode(i)));
     }
   } else {
