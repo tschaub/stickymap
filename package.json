@@ -10,6 +10,17 @@
     "rebuild": "nodemon --ext js,html --watch src --watch doc --exec make build",
     "start": "npm run rebuild & npm run serve"
   },
+  "files": [
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tschaub/stickymap.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tschaub/stickymap/issues"
+  },
+  "license": "MIT",
   "devDependencies": {
     "browser-sync": "^2.18.13",
     "chai": "^4.1.2",
