@@ -95,7 +95,7 @@ describe('onLoad', function() {
         expect(error.errors).to.have.lengthOf(2);
 
         var loadErrors = error.errors.slice().sort(function(a, b) {
-          return a.id < b.id ? -1 : 1;
+          return a.layer.id < b.layer.id ? -1 : 1;
         });
 
         expect(loadErrors[0]).to.be.an.instanceOf(errors.LayerLoadError);
