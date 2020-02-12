@@ -191,4 +191,37 @@ describe('map rendering', function() {
     };
     return expectPixelMatch(config, 'base/fixtures/expected/vector-combo.png');
   });
+
+  it('renders a vector layer without other layers', function() {
+    const config = {
+      width: 200,
+      fit: [-140, 30, -85, 60],
+      layers: [
+        {
+          vector: montana
+        }
+      ]
+    };
+    return expectPixelMatch(config, 'base/fixtures/expected/vector-solo.png');
+  });
+
+  it('supports a scale factor', function() {
+    const config = {
+      width: 200,
+      fit: [-140, 30, -85, 60],
+      scale: 2,
+      layers: [
+        {
+          url: 'base/fixtures/layers/osm/{z}/{x}/{y}.png',
+          maxZoom: 1
+        },
+        {
+          vector: montana
+        }
+      ]
+    };
+    return expectPixelMatch(config, 'base/fixtures/expected/vector-scale.png', {
+      threshold: 0.2
+    });
+  });
 });

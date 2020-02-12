@@ -31,6 +31,18 @@ function expectCoordinates(actual, expected) {
   }
 }
 
+describe('scaleBbox', function() {
+  it('returns the same for scale of 1', function() {
+    const bbox = [1, 2, 3, 4];
+    expect(geo.scaleBbox(bbox, 1)).to.eql([1, 2, 3, 4]);
+  });
+
+  it('applies a scale factor', function() {
+    const bbox = [-10, -5, 10, 5];
+    expect(geo.scaleBbox(bbox, 2)).to.eql([-20, -10, 20, 10]);
+  });
+});
+
 describe('transform', function() {
   it('works for Point', function() {
     const gg = {
