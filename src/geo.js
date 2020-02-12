@@ -60,6 +60,24 @@ function transformCoordinates(input) {
   return output;
 }
 
+function scaleBbox(bbox, factor) {
+  if (factor === 1) {
+    return bbox;
+  }
+  const halfWidth = (factor * (bbox[2] - bbox[0])) / 2;
+  const halfHeight = (factor * (bbox[3] - bbox[1])) / 2;
+  const midX = (bbox[0] + bbox[2]) / 2;
+  const midY = (bbox[1] + bbox[3]) / 2;
+  return [
+    midX - halfWidth,
+    midY - halfHeight,
+    midX + halfWidth,
+    midY + halfHeight
+  ];
+}
+
+exports.scaleBbox = scaleBbox;
+
 function getBbox(obj, bbox) {
   bbox = bbox || [Infinity, Infinity, -Infinity, -Infinity];
   switch (obj.type) {

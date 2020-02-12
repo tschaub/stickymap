@@ -24,7 +24,7 @@ function StickyMap(config) {
   }
 
   const dimensions = util.resolveDimensions({
-    bbox: merc.forward(bbox),
+    bbox: geo.scaleBbox(merc.forward(bbox), config.scale || 1),
     width: config.width,
     height: config.height
   });
@@ -61,7 +61,9 @@ function StickyMap(config) {
         transform: transform,
         onLoad: function(error) {
           loaded += 1;
-          if (error) {
+          if (!error) {
+            render();
+          } else {
             errors.push(error);
           }
           if (loaded === layers.length && config.onLoad) {

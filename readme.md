@@ -37,6 +37,10 @@ A GeoJSON object (of any type) or bounding box ([minLon, minLat, maxLon, maxLat]
 
 A GeoJSON object (of any type) used as a clip path when rendering the map.  Areas outside `clip` will not be rendered.
 
+### `scale`
+
+An optional scale factor to apply.  If provided, the extent of the rendered map will be the extent of the `fit` or `clip` data multiplied by this factor (e.g. `scale: 2` will render twice the extent of the provided data).
+
 ### `onLoad`
 
 Optional callback that will be called when the map finishes rendering.  The callback will be called with an `Error` if any resources failed to load during map rendering.
