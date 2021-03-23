@@ -1,5 +1,5 @@
-const merc = require('../src/merc');
-const expect = require('chai').expect;
+import * as merc from '../src/merc.js';
+import {expect} from 'chai';
 
 const DELTA = 1e-8;
 

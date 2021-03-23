@@ -1,6 +1,6 @@
-const expect = require('chai').expect;
-const merc = require('../src/merc');
-const xyz = require('../src/xyz');
+import {expect} from 'chai';
+import * as merc from '../src/merc.js';
+import * as xyz from '../src/xyz.js';
 
 describe('getZ()', function() {
   it('returns a zoom level given a resolution', function() {

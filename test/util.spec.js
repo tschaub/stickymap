@@ -1,5 +1,5 @@
-const util = require('../src/util');
-const expect = require('chai').expect;
+import * as util from '../src/util.js';
+import {expect} from 'chai';
 
 describe('resolveDimensions', function() {
   it('resolves width and height given bbox and width', function() {

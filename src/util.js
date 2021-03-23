@@ -1,9 +1,9 @@
-const bbox = require('./bbox');
+import {width as getWidth, height as getHeight, resize} from './bbox.js';
 
-exports.resolveDimensions = function(config) {
+export function resolveDimensions(config) {
   const minMapBbox = config.bbox;
-  const minMapWidth = bbox.width(minMapBbox);
-  const minMapHeight = bbox.height(minMapBbox);
+  const minMapWidth = getWidth(minMapBbox);
+  const minMapHeight = getHeight(minMapBbox);
   if (minMapWidth <= 0 || minMapHeight <= 0) {
     throw new Error('Map must have non-empty bbox');
   }
@@ -27,15 +27,16 @@ exports.resolveDimensions = function(config) {
     throw new Error('Map must be given a width or height');
   }
   return {
-    bbox: bbox.resize(minMapBbox, width * resolution, height * resolution),
+    bbox: resize(minMapBbox, width * resolution, height * resolution),
     resolution: resolution,
     width: width,
     height: height
   };
-};
+}
 
 const URL_RANGE = /{([0-9a-zA-Z])-([0-9a-zA-Z])}/;
-exports.expandUrl = function(url) {
+
+export function expandUrl(url) {
   let urls;
   const match = url.match(URL_RANGE);
   if (match) {
@@ -54,4 +55,4 @@ exports.expandUrl = function(url) {
     urls = [url];
   }
   return urls;
-};
+}

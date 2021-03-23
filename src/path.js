@@ -1,4 +1,4 @@
-function setGeometryPath(context, obj, transform) {
+export function setGeometryPath(context, obj, transform) {
   switch (obj.type) {
     case 'Polygon':
       setPolygonPath(context, obj.coordinates, transform);
@@ -23,8 +23,6 @@ function setGeometryPath(context, obj, transform) {
     // do nothing
   }
 }
-
-exports.setGeometryPath = setGeometryPath;
 
 function setPolygonPath(context, coordinates, transform) {
   for (let i = 0, ii = coordinates.length; i < ii; ++i) {

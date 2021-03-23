@@ -2,9 +2,9 @@ name: Test
 
 on:
   push:
-    branches: [ $default-branch ]
+    branches: [main]
   pull_request:
-    branches: [ $default-branch ]
+    branches: [main]
 
 jobs:
   test:
@@ -22,3 +22,4 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
     - run: npm test
+    - run: npm run build

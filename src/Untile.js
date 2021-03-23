@@ -20,4 +20,4 @@ Untile.prototype.load = function(callback) {
   image.src = url;
 };
 
-module.exports = Untile;
+export default Untile;

@@ -1,6 +1,6 @@
-const StickyMap = require('../src/map');
-const expect = require('chai').expect;
-const errors = require('../src/errors');
+import StickyMap from '../src/StickyMap.js';
+import * as errors from '../src/errors.js';
+import {expect} from 'chai';
 
 describe('constructor', function() {
   it('creates a new sticky map', function() {

@@ -1,6 +1,6 @@
-const Untile = require('./untile');
-const ImageLayerLoadError = require('./errors').ImageLayerLoadError;
-const bbox = require('./bbox');
+import Untile from './Untile.js';
+import {ImageLayerLoadError} from './errors.js';
+import {width as getWidth, height as getHeight} from './bbox.js';
 
 function ImageLayer(config) {
   this.id = config.id;
@@ -33,8 +33,8 @@ ImageLayer.prototype.render = function() {
     return;
   }
   const image = this.untile.image;
-  const imageResolutionX = bbox.width(this.imageBbox) / image.width;
-  const imageResolutionY = bbox.height(this.imageBbox) / image.height;
+  const imageResolutionX = getWidth(this.imageBbox) / image.width;
+  const imageResolutionY = getHeight(this.imageBbox) / image.height;
   const scaleX = imageResolutionX / this.resolution;
   const scaleY = imageResolutionY / this.resolution;
 
@@ -46,4 +46,4 @@ ImageLayer.prototype.render = function() {
   this.context.restore();
 };
 
-module.exports = ImageLayer;
+export default ImageLayer;

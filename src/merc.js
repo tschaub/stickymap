@@ -1,7 +1,8 @@
 const RADIUS = 6378137;
-const EDGE = RADIUS * Math.PI;
 
-exports.forward = function(input, output) {
+export const EDGE = RADIUS * Math.PI;
+
+export function forward(input, output) {
   output = output || [];
   let lat, y;
   for (let i = 0, ii = input.length; i < ii; i += 2) {
@@ -21,9 +22,9 @@ exports.forward = function(input, output) {
     output[i + 1] = y;
   }
   return output;
-};
+}
 
-exports.inverse = function(input, output) {
+export function inverse(input, output) {
   output = output || [];
   for (let i = 0, ii = input.length; i < ii; i += 2) {
     output[i] = (180 * input[i]) / EDGE;
@@ -31,6 +32,4 @@ exports.inverse = function(input, output) {
       (360 * Math.atan(Math.exp(input[i + 1] / RADIUS))) / Math.PI - 90;
   }
   return output;
-};
-
-exports.EDGE = EDGE;
+}
