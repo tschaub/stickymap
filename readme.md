@@ -72,4 +72,4 @@ style: {
 ```
 
 
-[![Build Status](https://travis-ci.org/tschaub/stickymap.svg?branch=master)](https://travis-ci.org/tschaub/stickymap)
+[![Statys](https://github.com/tschaub/stickymap/actions/workflows/test.yml/badge.svg)](https://github.com/tschaub/stickymap/actions/workflows/test.yml)
