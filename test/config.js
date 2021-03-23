@@ -1,14 +1,7 @@
-let browsers;
-if (process.env.TRAVIS) {
-  browsers = ['Firefox'];
-} else {
-  browsers = ['Chrome'];
-}
-
 module.exports = function(config) {
   config.set({
     frameworks: ['source-map-support', 'browserify', 'mocha'],
-    browsers: browsers,
+    browsers: ['ChromeHeadless'],
     files: ['**/*.spec.js', {pattern: 'fixtures/**/*', included: false}],
     preprocessors: {
       '**/*.js': ['browserify']
