@@ -107,8 +107,10 @@ function TileLoadError(message, tile) {
 TileLoadError.prototype = new LayerLoadError();
 TileLoadError.prototype.name = 'TileLoadError';
 
-exports.MapLoadError = MapLoadError;
-exports.LayerLoadError = LayerLoadError;
-exports.ImageLayerLoadError = ImageLayerLoadError;
-exports.TileLayerLoadError = TileLayerLoadError;
-exports.TileLoadError = TileLoadError;
+export {
+  MapLoadError,
+  LayerLoadError,
+  ImageLayerLoadError,
+  TileLayerLoadError,
+  TileLoadError
+};

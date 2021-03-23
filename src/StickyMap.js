@@ -1,11 +1,11 @@
-const MapLoadError = require('./errors').MapLoadError;
-const TileLayer = require('./tile-layer');
-const ImageLayer = require('./image-layer');
-const VectorLayer = require('./vector-layer');
-const geo = require('./geo');
-const merc = require('./merc');
-const util = require('./util');
-const setGeometryPath = require('./path').setGeometryPath;
+import {MapLoadError} from './errors.js';
+import TileLayer from './TileLayer.js';
+import ImageLayer from './ImageLayer.js';
+import VectorLayer from './VectorLayer.js';
+import {transform as geoTransform, getBbox, scaleBbox} from './geo.js';
+import {forward} from './merc.js';
+import {resolveDimensions, expandUrl} from './util.js';
+import {setGeometryPath} from './path.js';
 
 function StickyMap(config) {
   let bbox;
@@ -13,18 +13,18 @@ function StickyMap(config) {
     if (Array.isArray(config.fit)) {
       bbox = config.fit;
     } else {
-      bbox = geo.getBbox(config.fit);
+      bbox = getBbox(config.fit);
     }
   } else {
     if (config.clip) {
-      bbox = geo.getBbox(config.clip);
+      bbox = getBbox(config.clip);
     } else {
       throw new Error('Map must have fit or clip');
     }
   }
 
-  const dimensions = util.resolveDimensions({
-    bbox: geo.scaleBbox(merc.forward(bbox), config.scale || 1),
+  const dimensions = resolveDimensions({
+    bbox: scaleBbox(forward(bbox), config.scale || 1),
     width: config.width,
     height: config.height
   });
@@ -44,7 +44,7 @@ function StickyMap(config) {
     dimensions.bbox[3] / dimensions.resolution
   ];
   if (config.clip) {
-    setClipPath(context, geo.transform(config.clip), transform);
+    setClipPath(context, geoTransform(config.clip), transform);
   }
 
   const render = this._render.bind(this);
@@ -83,7 +83,7 @@ function StickyMap(config) {
         context: context,
         resolution: dimensions.resolution,
         bbox: dimensions.bbox,
-        imageBbox: layerConfig.bbox ? merc.forward(layerConfig.bbox) : null,
+        imageBbox: layerConfig.bbox ? forward(layerConfig.bbox) : null,
         url: layerConfig.url,
         onLoad: function(error) {
           loaded += 1;
@@ -107,12 +107,12 @@ function StickyMap(config) {
     let layerBbox = layerConfig.bbox;
     if (layerBbox) {
       if (!Array.isArray(layerBbox)) {
-        layerBbox = geo.getBbox(layerBbox);
+        layerBbox = getBbox(layerBbox);
       }
     }
     let urls = layerConfig.urls;
     if (!urls) {
-      urls = util.expandUrl(layerConfig.url);
+      urls = expandUrl(layerConfig.url);
     }
 
     return new TileLayer({
@@ -120,7 +120,7 @@ function StickyMap(config) {
       context: context,
       resolution: dimensions.resolution,
       bbox: bbox,
-      layerBbox: layerBbox ? merc.forward(layerBbox) : bbox,
+      layerBbox: layerBbox ? forward(layerBbox) : bbox,
       urls: urls,
       maxZoom: layerConfig.maxZoom,
       onTileLoad: function(error) {
@@ -166,4 +166,4 @@ function setClipPath(context, obj, transform) {
   context.clip();
 }
 
-module.exports = StickyMap;
+export default StickyMap;

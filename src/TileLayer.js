@@ -1,8 +1,8 @@
-const Tile = require('./tile');
-const TileLayerLoadError = require('./errors').TileLayerLoadError;
-const bbox = require('./bbox');
-const merc = require('./merc');
-const xyz = require('./xyz');
+import Tile from './Tile.js';
+import {TileLayerLoadError} from './errors.js';
+import {intersect} from './bbox.js';
+import {EDGE} from './merc.js';
+import {SIZE, getRange, getZ, getResolution} from './xyz.js';
 
 function TileLayer(config) {
   this.id = config.id;
@@ -19,11 +19,11 @@ function TileLayer(config) {
 }
 
 TileLayer.prototype.load = function() {
-  let z = xyz.getZ(this.resolution);
+  let z = getZ(this.resolution);
   if (!isNaN(this.maxZoom) && z > this.maxZoom) {
     z = this.maxZoom;
   }
-  const range = xyz.getRange(bbox.intersect(this.bbox, this.layerBbox), z);
+  const range = getRange(intersect(this.bbox, this.layerBbox), z);
   this.loading = 0;
   const handleTileLoad = this.handleTileLoad.bind(this);
   for (let x = range.minX; x <= range.maxX; ++x) {
@@ -63,26 +63,26 @@ TileLayer.prototype.render = function() {
   if (!numLoadedTiles) {
     return;
   }
-  let z = xyz.getZ(this.resolution);
+  let z = getZ(this.resolution);
   if (!isNaN(this.maxZoom) && z > this.maxZoom) {
     z = this.maxZoom;
   }
-  const tileResolution = xyz.getResolution(z);
+  const tileResolution = getResolution(z);
   const scale = tileResolution / this.resolution;
   this.context.save();
   this.context.scale(scale, scale);
 
-  const offsetX = (this.bbox[0] + merc.EDGE) / tileResolution;
-  const offsetY = (merc.EDGE - this.bbox[3]) / tileResolution;
+  const offsetX = (this.bbox[0] + EDGE) / tileResolution;
+  const offsetY = (EDGE - this.bbox[3]) / tileResolution;
   this.context.translate(-offsetX, -offsetY);
 
   for (let i = 0; i < numLoadedTiles; ++i) {
     const tile = this.loadedTiles[i];
-    const dx = tile.x * xyz.SIZE;
-    const dy = tile.y * xyz.SIZE;
+    const dx = tile.x * SIZE;
+    const dy = tile.y * SIZE;
     this.context.drawImage(tile.image, dx, dy);
   }
   this.context.restore();
 };
 
-module.exports = TileLayer;
+export default TileLayer;

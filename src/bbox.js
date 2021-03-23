@@ -1,36 +1,36 @@
-exports.width = function(bbox) {
+export function width(bbox) {
   return bbox[2] - bbox[0];
-};
+}
 
-exports.height = function(bbox) {
+export function height(bbox) {
   return bbox[3] - bbox[1];
-};
+}
 
-const getCenter = (exports.center = function(bbox) {
+export function center(bbox) {
   return [(bbox[0] + bbox[2]) / 2, (bbox[1] + bbox[3]) / 2];
-});
+}
 
-exports.resize = function(bbox, width, height) {
+export function resize(bbox, width, height) {
   const halfWidth = width / 2;
   const halfHeight = height / 2;
-  const center = getCenter(bbox);
+  const coord = center(bbox);
   return [
-    center[0] - halfWidth,
-    center[1] - halfHeight,
-    center[0] + halfWidth,
-    center[1] + halfHeight
+    coord[0] - halfWidth,
+    coord[1] - halfHeight,
+    coord[0] + halfWidth,
+    coord[1] + halfHeight
   ];
-};
+}
 
-exports.intersect = function(bbox1, bbox2) {
+export function intersect(bbox1, bbox2) {
   return [
     Math.max(bbox1[0], bbox2[0]),
     Math.max(bbox1[1], bbox2[1]),
     Math.min(bbox1[2], bbox2[2]),
     Math.min(bbox1[3], bbox2[3])
   ];
-};
+}
 
-exports.isEmpty = function(bbox) {
+export function isEmpty(bbox) {
   return bbox[0] >= bbox[2] || bbox[1] >= bbox[3];
-};
+}

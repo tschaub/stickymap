@@ -6,7 +6,7 @@
     "pretest": "eslint src test",
     "test": "karma start test/config.js --single-run",
     "test-forever": "karma start test/config.js",
-    "build": "mkdir -p build && cp doc/* build && esbuild src/index.js --bundle --global-name=stickymap --outfile=build/stickymap.js"
+    "build": "mkdir -p build && cp doc/* build && esbuild src/index.js --minify --bundle --global-name=bundle --banner:js='var stickymap = (() => {' --footer:js='return bundle.default;})();' --outfile=build/stickymap.js"
   },
   "files": [
     "src"

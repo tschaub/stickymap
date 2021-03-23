@@ -1,7 +1,7 @@
-const StickyMap = require('./map');
+import StickyMap from './StickyMap.js';
 
-module.exports = function(config) {
+export default function(config) {
   const map = new StickyMap(config);
   map.load();
   return map.canvas;
-};
+}

@@ -1,5 +1,5 @@
-const TileLoadError = require('./errors').TileLoadError;
-const xyz = require('./xyz');
+import {TileLoadError} from './errors.js';
+import {SIZE} from './xyz.js';
 
 function pick(urls, x, y, z) {
   const hash = (x << z) + y;
@@ -42,8 +42,8 @@ Tile.prototype.load = function(callback) {
     callback(new TileLoadError('Failed to load ' + url, tile));
   });
 
-  image.width = xyz.SIZE;
-  image.height = xyz.SIZE;
+  image.width = SIZE;
+  image.height = SIZE;
   this.image = image;
 
   if (this.z < 0) {
@@ -62,4 +62,4 @@ Tile.prototype.load = function(callback) {
   image.src = url;
 };
 
-module.exports = Tile;
+export default Tile;

@@ -1,5 +1,5 @@
-const setGeometryPath = require('./path').setGeometryPath;
-const geo = require('./geo');
+import {setGeometryPath} from './path.js';
+import {transform} from './geo.js';
 
 const defaultStyle = {
   lineWidth: 1.5,
@@ -8,7 +8,7 @@ const defaultStyle = {
 
 function VectorLayer(config) {
   this.id = config.id;
-  this.data = geo.transform(config.data);
+  this.data = transform(config.data);
   this.style = config.style || defaultStyle;
   this.context = config.context;
   this.transform = config.transform;
@@ -38,4 +38,4 @@ VectorLayer.prototype.render = function() {
   }
 };
 
-module.exports = VectorLayer;
+export default VectorLayer;

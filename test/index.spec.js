@@ -1,6 +1,6 @@
-const pixelmatch = require('pixelmatch');
-const stickymap = require('../src');
-const montana = require('./fixtures/vector/montana.json');
+import pixelmatch from 'pixelmatch';
+import stickymap from '../src/index.js';
+import montana from './fixtures/vector/montana.json';
 
 function expectPixelMatch(mapConfig, expectedPath, matchOptions) {
   matchOptions = matchOptions || {threshold: 0.1};

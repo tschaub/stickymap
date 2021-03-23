@@ -1,6 +1,6 @@
-const merc = require('./merc');
+import {forward} from './merc.js';
 
-function transform(obj) {
+export function transform(obj) {
   let transformed;
   switch (obj.type) {
     case 'Point':
@@ -39,8 +39,6 @@ function transform(obj) {
   return transformed;
 }
 
-exports.transform = transform;
-
 function transformCoordinates(input) {
   let output;
   if (!Array.isArray(input)) {
@@ -50,7 +48,7 @@ function transformCoordinates(input) {
     if (input.length < 2) {
       throw new Error('Invalid coordinates');
     }
-    output = merc.forward(input);
+    output = forward(input);
   } else {
     output = input.slice();
     for (let i = 0, ii = input.length; i < ii; ++i) {
@@ -60,7 +58,7 @@ function transformCoordinates(input) {
   return output;
 }
 
-function scaleBbox(bbox, factor) {
+export function scaleBbox(bbox, factor) {
   if (factor === 1) {
     return bbox;
   }
@@ -76,9 +74,7 @@ function scaleBbox(bbox, factor) {
   ];
 }
 
-exports.scaleBbox = scaleBbox;
-
-function getBbox(obj, bbox) {
+export function getBbox(obj, bbox) {
   bbox = bbox || [Infinity, Infinity, -Infinity, -Infinity];
   switch (obj.type) {
     case 'Point':
@@ -107,8 +103,6 @@ function getBbox(obj, bbox) {
   }
   return bbox;
 }
-
-exports.getBbox = getBbox;
 
 function getCoordinatesBbox(input, bbox) {
   if (!Array.isArray(input)) {

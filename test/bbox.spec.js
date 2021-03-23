@@ -1,5 +1,5 @@
-const bbox = require('../src/bbox');
-const expect = require('chai').expect;
+import * as bbox from '../src/bbox.js';
+import {expect} from 'chai';
 
 describe('width', function() {
   it('returns the width of a bbox', function() {
