@@ -38,7 +38,7 @@ function setPointPath(context, obj, transform) {
 
 function setMultiPointPath(context, obj, transform) {
   for (let i = 0, ii = obj.coordinates.length; i < ii; ++i) {
-    setPointPath(context, obj, transform);
+    setPointPath(context, { coordinates: obj.coordinates[i] }, transform);
   }
 }
 
