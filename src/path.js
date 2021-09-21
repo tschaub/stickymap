@@ -1,5 +1,11 @@
 export function setGeometryPath(context, obj, transform) {
   switch (obj.type) {
+    case 'Point':
+      setPointPath(context, obj, transform);
+      break;
+    case 'MultiPoint':
+      setMultiPointPath(context, obj, transform);
+      break;
     case 'Polygon':
       setPolygonPath(context, obj.coordinates, transform);
       break;
@@ -21,6 +27,18 @@ export function setGeometryPath(context, obj, transform) {
       break;
     default:
     // do nothing
+  }
+}
+
+function setPointPath(context, obj, transform) {
+  const [x, y] = applyTransform(transform, obj.coordinates);
+  // TODO: using a default radius of 8, find way to pass option
+  context.arc.apply(context, [x, y, 8, 0, Math.PI * 2]);
+}
+
+function setMultiPointPath(context, obj, transform) {
+  for (let i = 0, ii = obj.coordinates.length; i < ii; ++i) {
+    setPointPath(context, obj, transform);
   }
 }
 
