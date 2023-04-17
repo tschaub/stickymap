@@ -29,7 +29,7 @@
     "karma-esbuild": "^2.1.2",
     "karma-mocha": "^2.0.1",
     "karma-source-map-support": "^1.4.0",
-    "mocha": "^8.3.2",
+    "mocha": "^10.2.0",
     "pixelmatch": "^5.2.1"
   },
   "eslintConfig": {
